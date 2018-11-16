@@ -55,7 +55,7 @@ spring:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
   profiles: 
-    active: druid
+    active: dev
   # 文件上传
   servlet:
      multipart:
@@ -66,6 +66,9 @@ spring:
     restart:
       # 热部署开关
       enabled: true
+  output:
+    ansi:
+      enabled: always
 
 # MyBatis
 mybatis:
@@ -73,8 +76,10 @@ mybatis:
     typeAliasesPackage: com.ruoyi
     # 配置mapper的扫描，找到所有的mapper.xml映射文件
     mapperLocations: classpath*:mapper/**/*Mapper.xml
-    # 加载全局的配置文件
-    configLocation: classpath:mapper/mybatis-config.xml
+
+mapper:
+  not-empty: true
+  identity: MYSQL
 
 # PageHelper分页插件
 pagehelper: 
