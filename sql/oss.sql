@@ -1,12 +1,17 @@
 CREATE TABLE `sys_oss` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `file_name` varchar(64) NOT NULL DEFAULT '' COMMENT 'ÎÄ¼şÃû',
-  `file_suffix` varchar(10) NOT NULL DEFAULT '' COMMENT 'ÎÄ¼şºó×ºÃû',
-  `url` varchar(200) NOT NULL COMMENT 'URLµØÖ·',
-  `create_time` datetime DEFAULT NULL COMMENT '´´½¨Ê±¼ä',
-  `create_by` varchar(64) NOT NULL DEFAULT '' COMMENT 'ÉÏ´«ÈË',
-  `service` tinyint(2) NOT NULL DEFAULT '1' COMMENT '·şÎñÉÌ',
+  `file_name` varchar(64) NOT NULL DEFAULT '' COMMENT 'ï¿½Ä¼ï¿½ï¿½ï¿½',
+  `file_suffix` varchar(10) NOT NULL DEFAULT '' COMMENT 'ï¿½Ä¼ï¿½ï¿½ï¿½×ºï¿½ï¿½',
+  `url` varchar(200) NOT NULL COMMENT 'URLï¿½ï¿½Ö·',
+  `create_time` datetime DEFAULT NULL COMMENT 'ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½',
+  `create_by` varchar(64) NOT NULL DEFAULT '' COMMENT 'ï¿½Ï´ï¿½ï¿½ï¿½',
+  `service` tinyint(2) NOT NULL DEFAULT '1' COMMENT 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='ÎÄ¼şÉÏ´«';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='ï¿½Ä¼ï¿½ï¿½Ï´ï¿½';
 
-INSERT INTO `ry`.`sys_config` (`config_id`, `config_name`, `config_key`, `config_value`, `config_type`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES ('3', 'oss´æ´¢ÅäÖÃ', 'sys.oss.cloudStorage', '{\"aliyunAccessKeyId\":\"\",\"aliyunAccessKeySecret\":\"\",\"aliyunBucketName\":\"\",\"aliyunDomain\":\"\",\"aliyunEndPoint\":\"\",\"aliyunPrefix\":\"\",\"qcloudBucketName\":\"\",\"qcloudDomain\":\"\",\"qcloudPrefix\":\"\",\"qcloudSecretId\":\"\",\"qcloudSecretKey\":\"\",\"qiniuAccessKey\":\"\",\"qiniuBucketName\":\"ios-app\",\"qiniuDomain\":\"\",\"qiniuPrefix\":\"upload\",\"qiniuSecretKey\":\"\",\"type\":1}', 'Y', 'admin', '2018-03-16 11:33:00', '', '2018-03-16 11:33:00', 'oss´æ´¢ÅäÖÃ');
+INSERT INTO `ry`.`sys_config` (`config_id`, `config_name`, `config_key`, `config_value`, `config_type`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES ('3', 'ossï¿½æ´¢ï¿½ï¿½ï¿½ï¿½', 'sys.oss.cloudStorage', '{\"aliyunAccessKeyId\":\"\",\"aliyunAccessKeySecret\":\"\",\"aliyunBucketName\":\"\",\"aliyunDomain\":\"\",\"aliyunEndPoint\":\"\",\"aliyunPrefix\":\"\",\"qcloudBucketName\":\"\",\"qcloudDomain\":\"\",\"qcloudPrefix\":\"\",\"qcloudSecretId\":\"\",\"qcloudSecretKey\":\"\",\"qiniuAccessKey\":\"\",\"qiniuBucketName\":\"ios-app\",\"qiniuDomain\":\"\",\"qiniuPrefix\":\"upload\",\"qiniuSecretKey\":\"\",\"type\":1}', 'Y', 'admin', '2018-03-16 11:33:00', '', '2018-03-16 11:33:00', 'ossï¿½æ´¢ï¿½ï¿½ï¿½ï¿½');
+INSERT INTO `ry`.`sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `menu_type`, `visible`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES ('1056', 'æ–‡ä»¶ç®¡ç†', '1', '10', '/system/oss', 'C', '0', 'system:oss:view', '#', 'admin', '2018-11-16 13:59:45', '', NULL, '');
+INSERT INTO `ry`.`sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `menu_type`, `visible`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES ('1057', 'æ–‡ä»¶ä¸Šä¼ ', '1056', '1', '#', 'F', '0', 'system:oss:add', '#', 'admin', '2018-11-16 13:59:45', '', NULL, '');
+INSERT INTO `ry`.`sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `menu_type`, `visible`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES ('1058', 'æ–‡ä»¶åˆ é™¤', '1056', '2', '#', 'F', '0', 'system:oss:remove', '#', 'admin', '2018-11-16 13:59:45', '', NULL, '');
+INSERT INTO `ry`.`sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `menu_type`, `visible`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES ('1059', 'æ–‡ä»¶é…ç½®', '1056', '3', '#', 'F', '0', 'system:oss:config', '#', 'admin', '2018-11-16 13:59:45', '', NULL, '');
+INSERT INTO `ry`.`sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `url`, `menu_type`, `visible`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES ('1060', 'æ–‡ä»¶ä¿®æ”¹', '1056', '4', '#', 'F', '0', 'system:oss:remove', '#', 'admin', '2018-11-16 13:59:45', '', NULL, '');
