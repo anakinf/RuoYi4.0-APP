@@ -7,7 +7,8 @@
 一开始想整合mybatis-plus，这玩意太重了，而且crud和本项目很多地方八字不合。mapper继承com.ruoyi.common.base.BaseMapper<T>后就可以策马奔腾啦，谁用谁知道
 ###### 控制台日志分等级彩色渲染和多环境修改
 具体看logback-spring.xml和application.xml改动
-
+###### 集成七牛云，阿里云，腾讯云OSS
+详见sql/oss.sql,在上传页面配置好相关参数即可使用
 
 ## 内置功能
 

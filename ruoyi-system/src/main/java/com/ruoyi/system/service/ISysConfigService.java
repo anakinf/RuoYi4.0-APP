@@ -1,6 +1,7 @@
 package com.ruoyi.system.service;
 
 import java.util.List;
+
 import com.ruoyi.system.domain.SysConfig;
 
 /**
@@ -65,4 +66,11 @@ public interface ISysConfigService
      * @return 结果
      */
     public String checkConfigKeyUnique(SysConfig config);
+
+    /**
+     * @param key
+     * @param configValue
+     * @author zmr
+     */
+    public int updateValueByKey(String key, String configValue);
 }
