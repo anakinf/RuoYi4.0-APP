@@ -19,7 +19,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.ruoyi.framework.shiro.service.LoginService;
+import com.ruoyi.framework.shiro.service.SysLoginService;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.framework.web.exception.user.CaptchaException;
 import com.ruoyi.framework.web.exception.user.RoleBlockedException;
@@ -47,7 +47,7 @@ public class UserRealm extends AuthorizingRealm
     private ISysRoleService roleService;
 
     @Autowired
-    private LoginService loginService;
+    private SysLoginService loginService;
 
     /**
      * 授权
@@ -55,7 +55,7 @@ public class UserRealm extends AuthorizingRealm
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection arg0)
     {
-        SysUser user = ShiroUtils.getUser();
+        SysUser user = ShiroUtils.getSysUser();
         // 角色列表
         Set<String> roles = new HashSet<String>();
         // 功能列表

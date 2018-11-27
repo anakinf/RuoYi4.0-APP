@@ -1,4 +1,5 @@
 ## 平台简介
+
 本项目FORK自  [若依/RuoYi](https://gitee.com/y_project/RuoYi)
 暂时花了几分钟时间把自己整合过的功能传上来：
 ###### 多数据源切面
@@ -32,7 +33,9 @@
 ## 在线体验
 > admin/admin123
 
-地址：http://www.ruoyi.vip
+演示地址：http://ruoyi.vip  
+
+文档地址：http://doc.ruoyi.vip
 
 ## 演示图
 

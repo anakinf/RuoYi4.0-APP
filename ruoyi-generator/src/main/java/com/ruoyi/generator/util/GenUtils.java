@@ -20,10 +20,10 @@ import com.ruoyi.generator.domain.TableInfo;
 public class GenUtils
 {
     /** 项目空间路径 */
-    private static final String PROJECT_PATH = "main/java/com/ruoyi";
+    private static final String PROJECT_PATH = getProjectPath();
 
     /** mybatis空间路径 */
-    private static final String MYBATIS_PATH = "main/resources/mybatis";
+    private static final String MYBATIS_PATH = "main/resources/mapper";
 
     /** html空间路径 */
     private static final String TEMPLATES_PATH = "main/resources/templates";
@@ -69,8 +69,9 @@ public class GenUtils
         velocityContext.put("primaryKey", table.getPrimaryKey());
         velocityContext.put("className", table.getClassName());
         velocityContext.put("classname", table.getClassname());
-        velocityContext.put("moduleName", GenUtils.getModuleName(packageName));
+        velocityContext.put("moduleName", getModuleName(packageName));
         velocityContext.put("columns", table.getColumns());
+        velocityContext.put("basePackage", getBasePackage(packageName));
         velocityContext.put("package", packageName);
         velocityContext.put("author", Global.getAuthor());
         velocityContext.put("datetime", DateUtils.getDate());
@@ -123,7 +124,7 @@ public class GenUtils
         String classname = table.getClassname();
         // 大写类名
         String className = table.getClassName();
-        String javaPath = PROJECT_PATH + "/" + moduleName + "/";
+        String javaPath = PROJECT_PATH;
         String mybatisPath = MYBATIS_PATH + "/" + moduleName + "/" + className;
         String htmlPath = TEMPLATES_PATH + "/" + moduleName + "/" + classname;
 
@@ -144,7 +145,7 @@ public class GenUtils
 
         if (template.contains("ServiceImpl.java.vm"))
         {
-            return javaPath + "service" + "/" + className + "ServiceImpl.java";
+            return javaPath + "service" + "/impl/" + className + "ServiceImpl.java";
         }
 
         if (template.contains("Controller.java.vm"))
@@ -190,6 +191,23 @@ public class GenUtils
         return moduleName;
     }
 
+    public static String getBasePackage(String packageName)
+    {
+        int lastIndex = packageName.lastIndexOf(".");
+        String basePackage = StringUtils.substring(packageName, 0, lastIndex);
+        return basePackage;
+    }
+
+    public static String getProjectPath()
+    {
+        String packageName = Global.getPackageName();
+        StringBuffer projectPath = new StringBuffer();
+        projectPath.append("main/java/");
+        projectPath.append(packageName.replace(".", "/"));
+        projectPath.append("/");
+        return projectPath.toString();
+    }
+
     public static String replaceKeyword(String keyword)
     {
         String keyName = keyword.replaceAll("(?:表|信息)", "");
@@ -218,12 +236,5 @@ public class GenUtils
         javaTypeMap.put("date", "Date");
         javaTypeMap.put("datetime", "Date");
         javaTypeMap.put("timestamp", "Date");
-    }
-
-    public static void main(String[] args)
-    {
-        System.out.println(StringUtils.convertToCamelCase("user_name"));
-        System.out.println(replaceKeyword("岗位信息表"));
-        System.out.println(getModuleName("com.ruoyi.system"));
     }
 }
