@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
@@ -50,6 +51,7 @@ public class CloudStorageConfig implements Serializable
     private String            aliyunDomain;
 
     // 阿里云路径前缀
+    @Pattern(regexp="^[^(/|\\)](.*[^(/|\\)])?$",message="阿里云路径前缀不能'/'或者'\'开头或者结尾",groups = AliyunGroup.class)
     private String            aliyunPrefix;
 
     // 阿里云EndPoint
