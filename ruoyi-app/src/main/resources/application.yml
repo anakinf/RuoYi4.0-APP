@@ -22,12 +22,6 @@ logging:
 
 # Spring配置
 spring:
-  # 模板引擎
-  thymeleaf:
-    mode: HTML
-    encoding: utf-8
-    # 禁用缓存
-    cache: false
   # 资源信息
   messages:
     # 国际化资源文件路径
