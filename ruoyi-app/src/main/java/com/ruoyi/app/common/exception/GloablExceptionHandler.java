@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.ruoyi.app.common.page.PageData;
+import com.ruoyi.app.common.page.ResultData;
 
 /**
  * <p>File：GloablExceptionHandler.java</p>
@@ -22,22 +22,22 @@ public class GloablExceptionHandler
 {
     @ResponseBody
     @ExceptionHandler(Exception.class)
-    public PageData handleException(Exception e)
+    public ResultData handleException(Exception e)
     {
         String msg = e.getMessage();
         if (msg == null || msg.equals(""))
         {
             msg = "服务器出错";
         }
-        return new PageData(500, msg);
+        return new ResultData(500, msg);
     }
 
     // 捕捉UnauthorizedException
     @ResponseBody
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(UnauthorizedException.class)
-    public PageData handle401()
+    public ResultData handle401()
     {
-        return new PageData(401, "Unauthorized");
+        return new ResultData(401, "Unauthorized");
     }
 }

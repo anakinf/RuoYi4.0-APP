@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Table(name = "app_user")
-public class User implements Serializable
+public class AppUser implements Serializable
 {
     //
     private static final long serialVersionUID = -4387619029018315254L;
@@ -14,9 +14,13 @@ public class User implements Serializable
     @Id
     Long                      Id;
 
-    String                    username;
+    private String            username;
 
-    String                    password;
+    private String            password;
+
+    private String            role;
+
+    private String            permission;
 
     public Long getId()
     {
@@ -46,5 +50,25 @@ public class User implements Serializable
     public void setPassword(String password)
     {
         this.password = password;
+    }
+
+    public String getRole()
+    {
+        return role;
+    }
+
+    public void setRole(String role)
+    {
+        this.role = role;
+    }
+
+    public String getPermission()
+    {
+        return permission;
+    }
+
+    public void setPermission(String permission)
+    {
+        this.permission = permission;
     }
 }
