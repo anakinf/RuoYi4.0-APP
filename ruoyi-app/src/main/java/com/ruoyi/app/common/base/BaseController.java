@@ -5,7 +5,7 @@ import java.util.List;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ruoyi.app.common.interceptor.AuthenticationInterceptor;
-import com.ruoyi.app.common.page.PageData;
+import com.ruoyi.app.common.page.ResultData;
 import com.ruoyi.app.common.page.PageDomain;
 import com.ruoyi.app.common.page.PageSupport;
 import com.ruoyi.common.base.AjaxResult;
@@ -38,9 +38,9 @@ public class BaseController
      * @author zmr
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
-    protected PageData getDataPage(List<?> list)
+    protected ResultData getDataPage(List<?> list)
     {
-        PageData rspData = new PageData();
+        ResultData rspData = new ResultData();
         rspData.setCode(0);
         rspData.setRows(list);
         rspData.setTotal(new PageInfo(list).getTotal());

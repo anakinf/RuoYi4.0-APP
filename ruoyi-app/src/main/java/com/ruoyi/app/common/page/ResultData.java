@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * 表格分页数据对象
  */
-public class PageData implements Serializable
+public class ResultData implements Serializable
 {
     //
     private static final long serialVersionUID = -2652773809295318093L;
@@ -28,7 +28,7 @@ public class PageData implements Serializable
      * 
      * @author zmr
      */
-    public PageData()
+    public ResultData()
     {
         super();
     }
@@ -38,7 +38,7 @@ public class PageData implements Serializable
      * @param msg
      * @author zmr
      */
-    public PageData(int code, String msg)
+    public ResultData(int code, String msg)
     {
         super();
         this.code = code;
@@ -51,7 +51,7 @@ public class PageData implements Serializable
      * @param data
      * @author zmr
      */
-    public PageData(int code, String msg, Object data)
+    public ResultData(int code, String msg, Object data)
     {
         super();
         this.code = code;
@@ -66,7 +66,7 @@ public class PageData implements Serializable
      * @param rows
      * @author zmr
      */
-    public PageData(int code, String msg, Long total, List<?> rows)
+    public ResultData(int code, String msg, Long total, List<?> rows)
     {
         super();
         this.code = code;
@@ -125,13 +125,13 @@ public class PageData implements Serializable
         this.data = data;
     }
 
-    public static PageData success()
+    public static ResultData success()
     {
-        return new PageData(0, "success");
+        return new ResultData(0, "success");
     }
 
-    public static PageData success(Object data)
+    public static ResultData success(Object data)
     {
-        return new PageData(0, "success", data);
+        return new ResultData(0, "success", data);
     }
 }

@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Table(name = "app_user")
-public class User implements Serializable
+public class AppUser implements Serializable
 {
     //
     private static final long serialVersionUID = -4387619029018315254L;

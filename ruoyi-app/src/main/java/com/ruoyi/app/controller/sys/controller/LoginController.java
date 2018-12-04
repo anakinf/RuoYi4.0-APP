@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ruoyi.app.common.annotation.PassToken;
 import com.ruoyi.app.common.base.BaseController;
 import com.ruoyi.app.common.exception.UnauthorizedException;
-import com.ruoyi.app.common.page.PageData;
+import com.ruoyi.app.common.page.ResultData;
 import com.ruoyi.app.common.util.JwtUtil;
-import com.ruoyi.app.controller.sys.entity.User;
+import com.ruoyi.app.controller.sys.entity.AppUser;
 import com.ruoyi.app.controller.sys.service.impl.UserService;
 
 @RestController
@@ -22,13 +22,13 @@ public class LoginController extends BaseController
 
     @PassToken
     @PostMapping("/login")
-    public PageData login(@RequestBody User loginUser)
+    public ResultData login(@RequestBody AppUser loginUser)
     {
-        User user = userService.findByUsername(loginUser.getUsername());
+        AppUser appUser = userService.findByUsername(loginUser.getUsername());
         // 这里是演示，正式使用要加密
-        if (user.getPassword().equals(loginUser.getPassword()))
+        if (appUser.getPassword().equals(loginUser.getPassword()))
         {
-            return PageData.success(JwtUtil.sign(loginUser.getUsername(), loginUser.getPassword()));
+            return ResultData.success(JwtUtil.sign(loginUser.getUsername(), loginUser.getPassword()));
         }
         else
         {
@@ -37,8 +37,8 @@ public class LoginController extends BaseController
     }
 
     @GetMapping("/getUserId")
-    public PageData getUserId()
+    public ResultData getUserId()
     {
-        return PageData.success(getCurrentUserId());
+        return ResultData.success(getCurrentUserId());
     }
 }

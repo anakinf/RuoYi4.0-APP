@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ruoyi.app.common.annotation.PassToken;
 import com.ruoyi.app.common.exception.UnauthorizedException;
 import com.ruoyi.app.common.util.JwtUtil;
-import com.ruoyi.app.controller.sys.entity.User;
+import com.ruoyi.app.controller.sys.entity.AppUser;
 import com.ruoyi.app.controller.sys.service.impl.UserService;
 
 public class AuthenticationInterceptor implements HandlerInterceptor
@@ -55,18 +55,18 @@ public class AuthenticationInterceptor implements HandlerInterceptor
         {
             throw new RuntimeException("token invalid");
         }
-        User user = userService.findByUsername(username);
-        if (user == null)
+        AppUser appUser = userService.findByUsername(username);
+        if (appUser == null)
         {
             throw new RuntimeException("用户不存在，请重新登录");
         }
         // 验证 token
-        if (!JwtUtil.verify(token, user.getUsername(), user.getPassword()))
+        if (!JwtUtil.verify(token, appUser.getUsername(), appUser.getPassword()))
         {
             throw new UnauthorizedException();
         }
         // 设置userId到request里，后续根据userId，获取用户信息
-        request.setAttribute(USER_KEY, user.getId());
+        request.setAttribute(USER_KEY, appUser.getId());
         return true;
     }
 

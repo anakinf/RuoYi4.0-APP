@@ -5,7 +5,7 @@
  */
 package com.ruoyi.app.controller.sys.mapper;
 
-import com.ruoyi.app.controller.sys.entity.User;
+import com.ruoyi.app.controller.sys.entity.AppUser;
 import com.ruoyi.common.base.BaseMapper;
 
 /**
@@ -17,6 +17,6 @@ import com.ruoyi.common.base.BaseMapper;
  * @author zmr
  * @version 1.0
  */
-public interface UserMapper extends BaseMapper<User>
+public interface UserMapper extends BaseMapper<AppUser>
 {
 }
