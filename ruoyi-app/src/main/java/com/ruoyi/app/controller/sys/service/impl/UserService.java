@@ -1,5 +1,8 @@
 package com.ruoyi.app.controller.sys.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,29 +12,32 @@ import com.ruoyi.app.controller.sys.mapper.UserMapper;
 @Service("userService")
 public class UserService
 {
+    private final static Map<String, AppUser> usermap = new HashMap<String, AppUser>();
+    {
+        AppUser admin = new AppUser(1l, "admin", "123456", "admin", "view,edit");
+        AppUser guest = new AppUser(2l, "guest", "123456", "guest", "view");
+        usermap.put("admin", admin);
+        usermap.put("guest", guest);
+        usermap.put("1", admin);
+        usermap.put("2", guest);
+    }
+
     @Autowired
     UserMapper userMapper;
 
     public AppUser findByUsername(String username)
     {
-        AppUser appUser = new AppUser();
-        appUser.setUsername(username);
+        // AppUser appUser = new AppUser();
+        // appUser.setUsername(username);
         // return userMapper.selectOne(user);
         // 这里演示就直接返回了
-        appUser.setPassword("123456");
-        appUser.setId(1l);
-        return appUser;
+        return usermap.get(username);
     }
 
     public AppUser findUserById(long userId)
     {
-        //return userMapper.selectByPrimaryKey(userId);
-        AppUser appUser = new AppUser();
-        appUser.setUsername("test");
-        // return userMapper.selectOne(user);
+        // return userMapper.selectByPrimaryKey(userId);
         // 这里演示就直接返回了
-        appUser.setPassword("123456");
-        appUser.setId(userId);
-        return appUser;
+        return usermap.get(userId+"");
     }
 }

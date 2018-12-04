@@ -22,6 +22,33 @@ public class AppUser implements Serializable
 
     private String            permission;
 
+    /**
+     * 
+     * @author zmr
+     */
+    public AppUser()
+    {
+        super();
+    }
+
+    /**
+     * @param id
+     * @param username
+     * @param password
+     * @param role
+     * @param permission
+     * @author zmr
+     */
+    public AppUser(Long id, String username, String password, String role, String permission)
+    {
+        super();
+        Id = id;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.permission = permission;
+    }
+
     public Long getId()
     {
         return Id;

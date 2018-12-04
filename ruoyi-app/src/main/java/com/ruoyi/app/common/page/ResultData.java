@@ -130,8 +130,18 @@ public class ResultData implements Serializable
         return new ResultData(0, "success");
     }
 
+    public static ResultData success(String msg)
+    {
+        return new ResultData(0, msg);
+    }
+
     public static ResultData success(Object data)
     {
         return new ResultData(0, "success", data);
+    }
+
+    public static ResultData eoror(int code, String msg)
+    {
+        return new ResultData(code, msg);
     }
 }

@@ -1,5 +1,6 @@
 package com.ruoyi.app.common.exception;
 
+import org.apache.shiro.ShiroException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -39,5 +40,14 @@ public class GloablExceptionHandler
     public ResultData handle401()
     {
         return new ResultData(401, "Unauthorized");
+    }
+
+    // 捕捉shiro的异常
+    @ResponseBody
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(ShiroException.class)
+    public ResultData handle401(ShiroException e)
+    {
+        return new ResultData(401, "authorized error");
     }
 }

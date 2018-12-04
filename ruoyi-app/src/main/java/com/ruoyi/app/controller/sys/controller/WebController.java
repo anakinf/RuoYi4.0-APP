@@ -9,6 +9,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,11 +48,11 @@ public class WebController
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated())
         {
-            return new ResultData(200, "You are already logged in", null);
+            return ResultData.success("You are already logged in");
         }
         else
         {
-            return new ResultData(200, "You are guest", null);
+            return ResultData.success("You are guest");
         }
     }
 
@@ -59,27 +60,27 @@ public class WebController
     @RequiresAuthentication
     public ResultData requireAuth()
     {
-        return new ResultData(200, "You are authenticated", null);
+        return ResultData.success("You are authenticated");
     }
 
     @GetMapping("/require_role")
     @RequiresRoles("admin")
     public ResultData requireRole()
     {
-        return new ResultData(200, "You are visiting require_role", null);
+        return ResultData.success("You are visiting require_role");
     }
 
     @GetMapping("/require_permission")
     @RequiresPermissions(logical = Logical.AND, value = {"view", "edit"})
     public ResultData requirePermission()
     {
-        return new ResultData(200, "You are visiting permission require edit,view", null);
+        return ResultData.success("You are visiting permission require edit,view");
     }
 
-    @RequestMapping(path = "/401")
+    @RequestMapping(path = "/401/{message}")
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResultData unauthorized()
+    public ResultData unauthorized(@PathVariable(value = "message") String message)
     {
-        return new ResultData(401, "Unauthorized", null);
+        return ResultData.eoror(401, message);
     }
 }

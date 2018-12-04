@@ -13,6 +13,8 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,10 +25,10 @@ import com.ruoyi.app.controller.sys.service.impl.UserService;
 @Service
 public class MyRealm extends AuthorizingRealm
 {
-    // private static final Logger logger =
-    // LoggerFactory.getLogger(MyRealm.class);
+    private static final Logger logger = LoggerFactory.getLogger(MyRealm.class);
+
     @Autowired
-    private UserService userService;
+    private UserService         userService;
 
     /**
      * 大坑！，必须重写此方法，不然Shiro会报错
@@ -50,6 +52,7 @@ public class MyRealm extends AuthorizingRealm
         simpleAuthorizationInfo.addRole(appUser.getRole());
         Set<String> permission = new HashSet<>(Arrays.asList(appUser.getPermission().split(",")));
         simpleAuthorizationInfo.addStringPermissions(permission);
+        logger.debug(username+" role:"+appUser.getRole()+" permission:"+permission);
         return simpleAuthorizationInfo;
     }
 
@@ -59,6 +62,7 @@ public class MyRealm extends AuthorizingRealm
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken auth) throws AuthenticationException
     {
+        logger.debug("————身份认证方法————");
         String token = (String) auth.getCredentials();
         // 解密获得username，用于和数据库进行对比
         String username = JwtUtil.getUsername(token);
@@ -73,7 +77,7 @@ public class MyRealm extends AuthorizingRealm
         }
         if (!JwtUtil.verify(token, username, userBean.getPassword()))
         {
-            throw new AuthenticationException("Username or password error");
+            throw new AuthenticationException("token verify error");
         }
         return new SimpleAuthenticationInfo(token, token, "my_realm");
     }

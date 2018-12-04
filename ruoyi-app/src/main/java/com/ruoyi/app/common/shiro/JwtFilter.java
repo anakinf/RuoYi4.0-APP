@@ -15,17 +15,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 public class JwtFilter extends BasicHttpAuthenticationFilter
 {
-    private Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * 判断用户是否想要登入。
-     * 检测header里面是否包含Authorization字段即可
+     * 检测header里面是否包含token字段即可
      */
     @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response)
     {
         HttpServletRequest req = (HttpServletRequest) request;
-        String authorization = req.getHeader("Authorization");
+        String authorization = req.getHeader("token");
         return authorization != null;
     }
 
@@ -36,7 +36,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception
     {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        String authorization = httpServletRequest.getHeader("Authorization");
+        String authorization = httpServletRequest.getHeader("token");
         JwtToken token = new JwtToken(authorization);
         // 提交给realm进行登入，如果错误他会抛出异常并被捕获
         getSubject(request, response).login(token);
@@ -64,7 +64,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter
             }
             catch (Exception e)
             {
-                response401(request, response);
+                response401(response, e.getMessage());
             }
         }
         return true;
@@ -91,29 +91,27 @@ public class JwtFilter extends BasicHttpAuthenticationFilter
         return super.preHandle(request, response);
     }
 
-    @Override
-    protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception
+    protected void responseError(ServletRequest servletRequest, ServletResponse servletResponse)
     {
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
         httpResponse.setCharacterEncoding("UTF-8");
         httpResponse.setContentType("application/json;charset=UTF-8");
         httpResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
-        return false;
     }
 
     /**
      * 将非法请求跳转到 /401
      */
-    private void response401(ServletRequest req, ServletResponse resp)
+    private void response401(ServletResponse resp, String message)
     {
         try
         {
             HttpServletResponse httpServletResponse = (HttpServletResponse) resp;
-            httpServletResponse.sendRedirect("/401");
+            httpServletResponse.sendRedirect("/401/" + message);
         }
         catch (IOException e)
         {
-            LOGGER.error(e.getMessage());
+            logger.error(e.getMessage());
         }
     }
 }
