@@ -130,7 +130,7 @@ public class ResultData implements Serializable
         return new ResultData(0, "success");
     }
 
-    public static ResultData success(String msg)
+    public static ResultData successMsg(String msg)
     {
         return new ResultData(0, msg);
     }

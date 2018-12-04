@@ -48,11 +48,11 @@ public class WebController
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated())
         {
-            return ResultData.success("You are already logged in");
+            return ResultData.successMsg("You are already logged in");
         }
         else
         {
-            return ResultData.success("You are guest");
+            return ResultData.successMsg("You are guest");
         }
     }
 
@@ -60,21 +60,21 @@ public class WebController
     @RequiresAuthentication
     public ResultData requireAuth()
     {
-        return ResultData.success("You are authenticated");
+        return ResultData.successMsg("You are authenticated");
     }
 
     @GetMapping("/require_role")
     @RequiresRoles("admin")
     public ResultData requireRole()
     {
-        return ResultData.success("You are visiting require_role");
+        return ResultData.successMsg("You are visiting require_role");
     }
 
     @GetMapping("/require_permission")
     @RequiresPermissions(logical = Logical.AND, value = {"view", "edit"})
     public ResultData requirePermission()
     {
-        return ResultData.success("You are visiting permission require edit,view");
+        return ResultData.successMsg("You are visiting permission require edit,view");
     }
 
     @RequestMapping(path = "/401/{message}")
