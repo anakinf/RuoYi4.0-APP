@@ -2,7 +2,7 @@
 #### Q:jar运行方式没有问题，部署到tomcat出现404
 ###### A:多半是因为没有添加`RuoYiServletInitializer`类，建议同步最新代码或者添加该类
 
-#### Q:有没有整合mybatis-plus，通用mapper，oss，jwt，shiro-redis的？
+#### Q:有没有整合mybatis-plus，通用mapper，oss（对象存储），jwt（api,app开发），shiro-redis的？
 ###### A:先去文档扩展里面看看，大多数已经在了，[http://doc.ruoyi.vip/#/standard/ry05](http://doc.ruoyi.vip/#/standard/ry05)
 
 #### Q:类似`type=${@dict.getType('sys_normal_disable')}`的代码怎么直接调用service的
@@ -26,3 +26,16 @@ public interface UrlService {
 
 #### Q:提示`xx.table not exist`
 ###### A:一开始导入要执行2个sql文件，`ryxxx.sql`和`quartz.sql`
+
+#### Q:数据库枚举类型代码生成报错
+###### A:在CommonMap.java加一条javaTypeMap.put("enum", "String")
+
+#### Q:访问不到对应的template
+###### A:检查是否使用了绝对路径，即是否在路径前添加了'/'
+
+#### Q:我要配置一个不被拦截的url，要怎么配
+###### A:在`ShiroConfig`类中的`shiroFilterFactoryBean`方法添加
+
+```
+filterChainDefinitionMap.put("your url", "anon");
+```
