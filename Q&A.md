@@ -39,3 +39,21 @@ public interface UrlService {
 ```
 filterChainDefinitionMap.put("your url", "anon");
 ```
+
+#### Q:json的时间格式化怎么弄？
+###### A:ruoyi默认使用jackson
+方法一：在字段上加注解
+
+```
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date              createTime;
+```
+
+方法二：添加全局配置
+application中配置
+```
+spring
+    jackson
+        date-format=yyyy-MM-dd HH:mm:ss
+        time-zone=GMT+8
+```
