@@ -52,7 +52,7 @@ public class MyRealm extends AuthorizingRealm
         simpleAuthorizationInfo.addRole(appUser.getRole());
         Set<String> permission = new HashSet<>(Arrays.asList(appUser.getPermission().split(",")));
         simpleAuthorizationInfo.addStringPermissions(permission);
-        logger.debug(username+" role:"+appUser.getRole()+" permission:"+permission);
+        logger.debug(username + " role:" + appUser.getRole() + " permission:" + permission);
         return simpleAuthorizationInfo;
     }
 
@@ -62,21 +62,23 @@ public class MyRealm extends AuthorizingRealm
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken auth) throws AuthenticationException
     {
-        logger.debug("————身份认证方法————");
         String token = (String) auth.getCredentials();
         // 解密获得username，用于和数据库进行对比
         String username = JwtUtil.getUsername(token);
         if (username == null)
         {
+            logger.debug("token invalid");
             throw new AuthenticationException("token invalid");
         }
         AppUser userBean = userService.findByUsername(username);
         if (userBean == null)
         {
+            logger.debug("User didn't existed! token:"+token);
             throw new AuthenticationException("User didn't existed!");
         }
         if (!JwtUtil.verify(token, username, userBean.getPassword()))
         {
+            logger.debug("token verify error! token:"+token);
             throw new AuthenticationException("token verify error");
         }
         return new SimpleAuthenticationInfo(token, token, "my_realm");
