@@ -66,3 +66,6 @@ ps:*还是$看使用场景
 
 #### Q:日期选择插件怎么用？怎么精确到时分秒？
 ###### A:默认使用layui.laydate,请参阅相关[文档](https://www.layui.com/doc/modules/laydate.html) ,或者自行使用其他插件
+
+#### Q:上传的文件怎么映射url的？
+###### A:详见`ResourcesConfig`，相当于把`"/profile/**"`映射到磁盘，用过`nginx`的同学是不是很熟悉呢
