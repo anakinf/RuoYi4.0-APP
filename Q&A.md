@@ -57,3 +57,9 @@ spring
         date-format=yyyy-MM-dd HH:mm:ss
         time-zone=GMT+8
 ```
+如果在页面上要格式化时间
+
+```
+*{#dates.format(createTime, 'yyyy-MM-dd HH:mm:ss')}
+```
+ps:*还是$看使用场景
