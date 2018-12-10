@@ -63,3 +63,6 @@ spring
 *{#dates.format(createTime, 'yyyy-MM-dd HH:mm:ss')}
 ```
 ps:*还是$看使用场景
+
+#### Q:日期选择插件怎么用？怎么精确到时分秒？
+###### A:默认使用layui.laydate,请参阅相关[文档](https://www.layui.com/doc/modules/laydate.html) ,或者自行使用其他插件
