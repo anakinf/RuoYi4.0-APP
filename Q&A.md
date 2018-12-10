@@ -57,12 +57,18 @@ spring
         date-format=yyyy-MM-dd HH:mm:ss
         time-zone=GMT+8
 ```
-如果在页面上要格式化时间
+如果在页面上要格式化时间 ps: *还是$看使用场景
 
 ```
 *{#dates.format(createTime, 'yyyy-MM-dd HH:mm:ss')}
 ```
-ps:*还是$看使用场景
+
+如果在`excel`导出里
+
+```
+ @Excel(dateFormat = "yyyy-MM-dd HH:mm:ss")
+```
+
 
 #### Q:日期选择插件怎么用？怎么精确到时分秒？
 ###### A:默认使用layui.laydate,请参阅相关[文档](https://www.layui.com/doc/modules/laydate.html) ,或者自行使用其他插件
