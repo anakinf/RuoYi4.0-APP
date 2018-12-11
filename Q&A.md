@@ -75,3 +75,13 @@ spring
 
 #### Q:上传的文件怎么映射url的？
 ###### A:详见`ResourcesConfig`，相当于把`"/profile/**"`映射到磁盘，用过`nginx`的同学是不是很熟悉呢
+
+#### Q:为什么我新建的表生成代码里找不到？
+###### A:99%的可能是表没有加注释，是表注释而不是字段注释原因见
+```
+<select id="selectTableByName" parameterType="String" resultMap="TableInfoResult">
+	<include refid="selectGenVo"/>
+	where table_comment <![CDATA[ <> ]]> '' and table_schema = (select database())
+	and table_name = #{tableName}
+</select>
+```
