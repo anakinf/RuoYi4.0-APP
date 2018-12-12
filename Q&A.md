@@ -85,3 +85,23 @@ spring
 	and table_name = #{tableName}
 </select>
 ```
+
+#### Q:列字段内容过长，表格被撑乱，怎么破？
+###### A:默认使用的是`bootstraptable`
+1. 给tabel添加样式 `style="table-layout:fixed"`
+ 
+2. js给td天啊及css样式： 
+
+```
+field : 'remark', 
+title : '备注', 
+cellStyle:{ 
+    css:{ 
+        "overflow": "hidden", 
+        "text-overflow": "ellipsis", 
+        "white-space": "nowrap" 
+    } 
+}
+```
+
+
