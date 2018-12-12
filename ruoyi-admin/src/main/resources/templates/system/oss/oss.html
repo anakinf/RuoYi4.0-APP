@@ -39,6 +39,9 @@
 		        <a class="btn btn-primary" onclick="javascript:ossfig()" shiro:hasPermission="system:dict:config">
 		            <i class="fa fa-cogs"></i> 云储存配置
 		        </a>
+		        <a class="btn btn-warning" onclick="javascript:osseditor()" shiro:hasPermission="system:dict:add">
+		            <i class="fa fa-image"></i> 结合kindeditor
+		        </a>
 	        </div>
 	        
 	        <div class="col-sm-12 select-table table-striped">
@@ -82,7 +85,13 @@
 					},
 					{
 						field: 'url',
-						title: '文件地址'
+						title: '文件地址',
+						formatter:function(value,row,index){
+		                    var s = '<a class = "view"  href="javascript:void(0)"><img style="width:30;height:30px;"  src="'+row.url+'" /></a>';
+		                    return s;
+		                },
+		                events: 'operateEvents'
+						
 					},
 					{
 						field: 'createTime',
@@ -133,10 +142,14 @@
 			};
 		}
 		
-		//调度日志查询
-		function ossfig(id) {
+		function ossfig() {
 			var url = prefix+'/config';
 			$.modal.open("云储存配置", url);
+		}
+		
+		function osseditor() {
+			var url = prefix+'/editor';
+			$.modal.open("结合editor", url);
 		}
 		
 		
@@ -155,6 +168,20 @@
 	            $.operate.ajaxSuccess(r);
 	        }
 	    });
+	    
+	    window.operateEvents = {
+		    'click .view': function (e, value, row, index) {
+		        layer.open({
+		          type: 1,
+		          title: false,
+		          closeBtn: 0,
+		          area: 'auto',
+		          skin: 'layui-layer-nobg', //没有背景色
+		          shadeClose: true,
+		          content: '<img src="'+row.url+'"/>'
+		        });
+		    },
+		};
 	</script>
 </body>
 </html>

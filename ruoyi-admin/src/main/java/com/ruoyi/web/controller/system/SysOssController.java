@@ -129,7 +129,7 @@ public class SysOssController extends BaseController
         // 上传文件
         String fileName = file.getOriginalFilename();
         String suffix = fileName.substring(fileName.lastIndexOf("."));
-        CloudStorageService storage=OSSFactory.build();
+        CloudStorageService storage = OSSFactory.build();
         String url = storage.uploadSuffix(file.getBytes(), suffix);
         // 保存文件信息
         SysOss ossEntity = new SysOss();
@@ -139,7 +139,7 @@ public class SysOssController extends BaseController
         ossEntity.setFileName(fileName);
         ossEntity.setCreateTime(new Date());
         ossEntity.setService(storage.getService());
-        return toAjax(sysOssService.save(ossEntity));
+        return toAjax(sysOssService.save(ossEntity)).put("data", ossEntity.getUrl());
     }
 
     /**
@@ -152,6 +152,13 @@ public class SysOssController extends BaseController
         SysOss sysOss = sysOssService.findById(ossId);
         model.addAttribute("sysOss", sysOss);
         return prefix + "/edit";
+    }
+
+    @GetMapping("editor")
+    @RequiresPermissions("sys:oss:add")
+    public String editor()
+    {
+        return prefix + "/editor";
     }
 
     /**
