@@ -52,7 +52,7 @@
 		        </a>
 	        </div>
 	        <div class="col-sm-12 select-table table-striped">
-	            <table id="bootstrap-table" data-mobile-responsive="true"></table>
+	            <table id="bootstrap-table" data-mobile-responsive="true" style="table-layout:fixed"></table>
 	        </div>
 	    </div>
 	</div>
@@ -92,7 +92,14 @@
                 },
                 {
                     field: 'configValue',
-                    title: '参数键值'
+                    title: '参数键值',
+                    cellStyle:{ 
+					    css:{ 
+					        "overflow": "hidden", 
+					        "text-overflow": "ellipsis", 
+					        "white-space": "nowrap" 
+					    } 
+					}
                 },
                 {
                     field: 'configType',
