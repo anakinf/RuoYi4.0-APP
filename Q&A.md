@@ -90,7 +90,7 @@ spring
 ###### A:默认使用的是`bootstraptable`
 1. 给tabel添加样式 `style="table-layout:fixed"`
  
-2. js给td天啊及css样式： 
+2. js给td添加css样式： 
 
 ```
 field : 'remark', 
