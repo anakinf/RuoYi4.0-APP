@@ -103,5 +103,4 @@
 		<finalName>${artifactId}</finalName>
 	</build>
 
-	>>>>>>> branch 'master' of https://gitee.com/y_project/RuoYi.git
 </project>
