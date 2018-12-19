@@ -11,39 +11,16 @@
 					<div class="select-list">
 						<ul>
 							<li>
-								上级编号：<input type="text" name="pid"/>
-							</li>
-
-							<li>
-								层级：<input type="text" name="deep"/>
+								层级：<select name="deep">
+									<option value="">所有</option>
+									<option value="0">省</option>
+									<option value="1">市</option>
+									<option value="2">区/县</option>
+								</select>
 							</li>
 
 							<li>
 								名称：<input type="text" name="name"/>
-							</li>
-
-							<li>
-								拼音：<input type="text" name="pinyin"/>
-							</li>
-
-							<li>
-								拼音缩写：<input type="text" name="pinyinShor"/>
-							</li>
-
-							<li>
-								扩展名：<input type="text" name="extName"/>
-							</li>
-
-							<li>
-								创建时间：<input type="text" name="createTime"/>
-							</li>
-
-							<li>
-								更新时间：<input type="text" name="updateTime"/>
-							</li>
-
-							<li>
-								操作人：<input type="text" name="operator"/>
 							</li>
 
 							<li>
@@ -65,9 +42,6 @@
 				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:districts:remove">
 					<i class="fa fa-remove"></i> 删除
 				</a>
-				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:districts:export">
-						<i class="fa fa-download"></i> 导出
-				 </a>
 			</div>
 			<div class="col-sm-12 select-table table-striped">
 				<table id="bootstrap-table" data-mobile-responsive="true"></table>
@@ -95,38 +69,42 @@
 		        },
 				{
 					field : 'id', 
-					title : '编号',
-					visible: false
-				},
-				{
-					field : 'pid', 
-					title : '上级编号',
-					sortable: true
+					title : '编号'
 				},
 				{
 					field : 'deep', 
 					title : '层级',
-					sortable: true
+					formatter: function(value, item, index) {
+		                if (value == '0') {
+		                    return '省';
+		                }
+		                else if (value == '1') {
+		                    return '市';
+		                }
+		                else if (value == '2') {
+		                    return '区/县';
+			            }
+			        }
+				},
+				{
+					field : 'pname', 
+					title : '上级名称',
 				},
 				{
 					field : 'name', 
 					title : '名称',
-					sortable: true
 				},
 				{
 					field : 'pinyin', 
 					title : '拼音',
-					sortable: true
 				},
 				{
 					field : 'pinyinShor', 
 					title : '拼音缩写',
-					sortable: true
 				},
 				{
 					field : 'extName', 
 					title : '扩展名',
-					sortable: true
 				},
 				{
 					field : 'createTime', 
@@ -141,7 +119,6 @@
 				{
 					field : 'operator', 
 					title : '操作人',
-					sortable: true
 				},
 		        {
 		            title: '操作',

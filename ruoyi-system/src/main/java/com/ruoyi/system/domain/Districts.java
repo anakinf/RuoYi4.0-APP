@@ -27,6 +27,9 @@ public class Districts extends BaseEntity
     /** 名称 */
     private String            name;
 
+    /** 上级名称 */
+    private String            pname;
+
     /** 拼音 */
     private String            pinyin;
 
@@ -77,6 +80,16 @@ public class Districts extends BaseEntity
     public String getName()
     {
         return name;
+    }
+
+    public String getPname()
+    {
+        return pname;
+    }
+
+    public void setPname(String pname)
+    {
+        this.pname = pname;
     }
 
     public void setPinyin(String pinyin)
