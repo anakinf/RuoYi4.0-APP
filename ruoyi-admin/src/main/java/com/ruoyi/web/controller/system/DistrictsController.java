@@ -1,5 +1,6 @@
 package com.ruoyi.web.controller.system;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -17,6 +18,7 @@ import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.page.TableDataInfo;
 import com.ruoyi.common.utils.ExcelUtil;
+import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.framework.web.base.BaseController;
 import com.ruoyi.system.domain.Districts;
 import com.ruoyi.system.service.IDistrictsService;
@@ -41,6 +43,13 @@ public class DistrictsController extends BaseController
 	public String districts()
 	{
 	    return prefix + "/districts";
+	}
+	
+	@RequiresPermissions("system:districts:list")
+	@GetMapping("demo")
+	public String demo()
+	{
+	    return prefix + "/demo";
 	}
 	
 	/**
@@ -88,6 +97,10 @@ public class DistrictsController extends BaseController
 	@ResponseBody
 	public AjaxResult addSave(Districts districts)
 	{		
+	    districts.setPid(districts.getId()/100);
+	    districts.setCreateTime(new Date());
+	    districts.setUpdateTime(new Date());
+	    districts.setOperator(ShiroUtils.getLoginName());
 		return toAjax(districtsService.insertDistricts(districts));
 	}
 
@@ -111,6 +124,9 @@ public class DistrictsController extends BaseController
 	@ResponseBody
 	public AjaxResult editSave(Districts districts)
 	{		
+	    districts.setPid(districts.getId()/100);
+	    districts.setOperator(ShiroUtils.getLoginName());
+	    districts.setUpdateTime(new Date());
 		return toAjax(districtsService.updateDistricts(districts));
 	}
 	

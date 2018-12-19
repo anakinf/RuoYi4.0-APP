@@ -42,6 +42,9 @@
 				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:districts:remove">
 					<i class="fa fa-remove"></i> 删除
 				</a>
+				<a class="btn btn-warning" onclick="demo()" shiro:hasPermission="system:districts:list">
+					<i class="fa fa-cubes"></i> 使用demo
+				</a>
 			</div>
 			<div class="col-sm-12 select-table table-striped">
 				<table id="bootstrap-table" data-mobile-responsive="true"></table>
@@ -133,6 +136,10 @@
             };
             $.table.init(options);
         });
+        function demo(){
+        	var url = prefix+'/demo';
+			$.modal.open("演示demo", url);
+        }
     </script>
 </body>
 </html>
