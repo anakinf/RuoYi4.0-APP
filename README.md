@@ -16,6 +16,8 @@
 - 阿里云配置问题：长度必须在 1-1023字节之间，而且不能包含回车、换行、以及xml1.0不支持的字符，同时也不能以“/”或者“\”开头。
 
 
+> 阿里云双12活动低至2折 ：[点我购买](https://m.aliyun.com/act/team1212?params=N.DTB4ZxQhX0#/)
+
 ## 内置功能
 
 1.  用户管理：用户是系统操作者，该功能主要完成系统用户配置。
@@ -35,7 +37,8 @@
 15. 在线构建器：拖动表单元素生成相应的HTML代码。
 16. 连接池监视：监视当期系统数据库连接池状态，可进行分析SQL找出系统性能瓶颈。
 ## 在线体验
-> admin/admin123
+> admin/admin123  
+> 陆陆续续收到一些打赏，为了更好的体验已用于演示服务器升级。谢谢各位小伙伴。
 
 演示地址：http://ruoyi.vip  
 
@@ -73,4 +76,4 @@
 
 ## 若依交流群
 
-QQ群： [![加入QQ群](https://img.shields.io/badge/已满-1389287-blue.svg)](https://jq.qq.com/?_wv=1027&k=5HBAaYN)  [![加入QQ群](https://img.shields.io/badge/QQ群-1679294-blue.svg)](https://jq.qq.com/?_wv=1027&k=5cHeRVW) 点击按钮入群。
+QQ群： [![加入QQ群](https://img.shields.io/badge/已满-1389287-blue.svg)](https://jq.qq.com/?_wv=1027&k=5HBAaYN)  [![加入QQ群](https://img.shields.io/badge/已满-1679294-blue.svg)](https://jq.qq.com/?_wv=1027&k=5cHeRVW)  [![加入QQ群](https://img.shields.io/badge/QQ群-1529866-blue.svg)](https://jq.qq.com/?_wv=1027&k=53R0L5Z)  点击按钮入群。
