@@ -8,6 +8,7 @@ import org.apache.shiro.session.mgt.SessionValidationScheduler;
 import org.apache.shiro.session.mgt.ValidatingSessionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.ruoyi.common.utils.Threads;
 
 /**
  * 自定义任务调度器完成
@@ -17,7 +18,7 @@ import org.slf4j.LoggerFactory;
 public class SpringSessionValidationScheduler implements SessionValidationScheduler
 {
     private static final Logger log = LoggerFactory.getLogger(SpringSessionValidationScheduler.class);
-    
+
     public static final long DEFAULT_SESSION_VALIDATION_INTERVAL = DefaultSessionManager.DEFAULT_SESSION_VALIDATION_INTERVAL;
 
     /**
@@ -134,6 +135,10 @@ public class SpringSessionValidationScheduler implements SessionValidationSchedu
             log.debug("Stopping Spring Scheduler session validation job...");
         }
 
+        if (this.enabled)
+        {
+            Threads.shutdownAndAwaitTermination(executorService);
+        }
         this.enabled = false;
     }
 }

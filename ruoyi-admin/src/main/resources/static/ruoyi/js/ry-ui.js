@@ -67,6 +67,13 @@
                 	return { rows: [], total: 0 };
                 }
             },
+            // 序列号生成
+            serialNumber: function (index) {
+				var table = $('#bootstrap-table').bootstrapTable('getOptions');
+				var pageSize = table.pageSize;
+				var pageNumber = table.pageNumber;
+				return pageSize * (pageNumber - 1) + index + 1;
+			},
             // 搜索-默认第一个form
             search: function(formId) {
             	var currentId = $.common.isEmpty(formId) ? $('form').attr('id') : formId;
@@ -423,6 +430,10 @@
             // post请求传输
             post: function(url, data) {
             	$.operate.submit(url, "post", "json", data);
+            },
+            // get请求传输
+            get: function(url) {
+            	$.operate.submit(url, "get", "json", "");
             },
             // 详细信息
             detail: function(id, width, height) {
