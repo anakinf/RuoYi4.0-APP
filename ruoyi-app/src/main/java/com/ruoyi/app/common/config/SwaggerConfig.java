@@ -39,8 +39,9 @@ public class SwaggerConfig
     {
         return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).forCodeGeneration(true).select()
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
-                .apis(RequestHandlerSelectors.any()).paths(PathSelectors.regex("^.*(?<!error)$")).build()
-                .securitySchemes(securitySchemes()).securityContexts(securityContexts());
+                // .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.regex("^.*(?<!error)$")).build().securitySchemes(securitySchemes())
+                .securityContexts(securityContexts());
     }
 
     private List<ApiKey> securitySchemes()
