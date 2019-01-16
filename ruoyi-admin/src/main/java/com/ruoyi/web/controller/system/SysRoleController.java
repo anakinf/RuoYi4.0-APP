@@ -15,7 +15,7 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.page.TableDataInfo;
-import com.ruoyi.common.utils.ExcelUtil;
+import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysRole;
 import com.ruoyi.system.service.ISysRoleService;
@@ -60,7 +60,7 @@ public class SysRoleController extends BaseController
     {
         List<SysRole> list = roleService.selectRoleList(role);
         ExcelUtil<SysRole> util = new ExcelUtil<SysRole>(SysRole.class);
-        return util.exportExcel(list, "role");
+        return util.exportExcel(list, "角色数据");
     }
 
     /**
@@ -180,5 +180,17 @@ public class SysRoleController extends BaseController
     public String selectMenuTree()
     {
         return prefix + "/tree";
+    }
+
+    /**
+     * 角色状态修改
+     */
+    @Log(title = "角色管理", businessType = BusinessType.UPDATE)
+    @RequiresPermissions("system:role:edit")
+    @PostMapping("/changeStatus")
+    @ResponseBody
+    public AjaxResult changeStatus(SysRole role)
+    {
+        return toAjax(roleService.changeStatus(role));
     }
 }

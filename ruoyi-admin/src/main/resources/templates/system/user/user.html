@@ -73,6 +73,9 @@
 	            <a class="btn btn-danger btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:user:remove">
 	                <i class="fa fa-remove"></i> 删除
 	            </a>
+	            <a class="btn btn-info" onclick="$.table.importExcel()" shiro:hasPermission="system:user:import">
+		            <i class="fa fa-download"></i> 导入
+		        </a>
 	            <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:user:export">
 		            <i class="fa fa-download"></i> 导出
 		        </a>
@@ -83,6 +86,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<div th:include="include :: footer"></div>
 	<script th:src="@{/ajax/libs/jquery-layout/jquery.layout-latest.js}"></script>
 	<script th:src="@{/ajax/libs/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js}"></script>
@@ -94,9 +98,13 @@
 		var prefix = ctx + "system/user";
 
 		$(function() {
-			$('body').layout({ west__size: 185 });
-			queryUserList();
-			queryDeptTree();
+		    var panehHidden = false;
+		    if ($(this).width() < 769) {
+		        panehHidden = true;
+		    }
+		    $('body').layout({ initClosed: panehHidden, west__size: 185 });
+		    queryUserList();
+		    queryDeptTree();
 		});
 
 		function queryUserList() {
@@ -106,6 +114,8 @@
 		        updateUrl: prefix + "/edit/{id}",
 		        removeUrl: prefix + "/remove",
 		        exportUrl: prefix + "/export",
+		        importUrl: prefix + "/importData",
+		        importTemplateUrl: prefix + "/importTemplate",
 		        sortName: "createTime",
 		        sortOrder: "desc",
 		        modalName: "用户",
@@ -141,12 +151,12 @@
 		            title: '手机'
 		        },
 		        {
-		            field: 'status',
-		            title: '状态',
-		            align: 'center',
-		            formatter: function(value, row, index) {
-		            	return $.table.selectDictLabel(datas, value);
-		            }
+		        	visible: editFlag == 'hidden' ? false : true,
+		        	title: '用户状态',
+		        	align: 'center',
+		        	formatter: function (value, row, index) {
+		        		return statusTools(row);
+		        	}
 		        },
 		        {
 		            field: 'createTime',
@@ -201,17 +211,52 @@
 			queryDeptTree();
 		});
 
-		/*用户管理-部门*/
+		/* 用户管理-部门 */
 		function dept() {
 			var url = ctx + "system/dept";
 			createMenuItem(url, "部门管理");
 		}
 
-		/*用户管理-重置密码*/
+		/* 用户管理-重置密码 */
 		function resetPwd(userId) {
 		    var url = prefix + '/resetPwd/' + userId;
 		    $.modal.open("重置密码", url, '800', '300');
 		}
+		
+		/* 用户状态显示 */
+		function statusTools(row) {
+		    if (row.status == 1) {
+    			return '<i class=\"fa fa-toggle-off text-info fa-2x\" onclick="enable(\'' + row.userId + '\')"></i> ';
+    		} else {
+    			return '<i class=\"fa fa-toggle-on text-info fa-2x\" onclick="disable(\'' + row.userId + '\')"></i> ';
+    		}
+		}
+		
+		/* 用户管理-停用 */
+		function disable(userId) {
+			$.modal.confirm("确认要停用用户吗？", function() {
+				$.operate.post(prefix + "/changeStatus", { "userId": userId, "status": 1 });
+		    })
+		}
+
+		/* 用户管理启用 */
+		function enable(userId) {
+			$.modal.confirm("确认要启用用户吗？", function() {
+				$.operate.post(prefix + "/changeStatus", { "userId": userId, "status": 0 });
+		    })
+		}
 	</script>
 </body>
+<form id="importForm" enctype="multipart/form-data" class="mt20 mb10" style="display: none;">
+	<div class="col-xs-offset-1">
+		<input type="file" id="file" name="file"/>
+		<div class="mt10 pt5">
+			<input type="checkbox" id="updateSupport" name="updateSupport" title="如果登录账户已经存在，更新这条数据。"> 是否更新已经存在的用户数据
+			 &nbsp;	<a onclick="$.table.importTemplate()" class="btn btn-default btn-xs"><i class="fa fa-file-excel-o"></i> 下载模板</a>
+		</div>
+		<font color="red" class="pull-left mt10">
+			提示：仅允许导入“xls”或“xlsx”格式文件！
+		</font>
+	</div>
+</form>
 </html>

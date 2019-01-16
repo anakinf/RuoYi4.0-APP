@@ -1,6 +1,6 @@
 /**
  * 通用js方法封装处理
- * Copyright (c) 2018 ruoyi
+ * Copyright (c) 2019 ruoyi
  */
 (function ($) {
     $.extend({
@@ -18,6 +18,7 @@
                 _sortName = $.common.isEmpty(options.sortName) ? "" : options.sortName;
                 _striped = $.common.isEmpty(options.striped) ? false : options.striped;
                 _escape = $.common.isEmpty(options.escape) ? false : options.escape;
+                _showFooter = $.common.isEmpty(options.showFooter) ? false : options.showFooter;
                 $('#bootstrap-table').bootstrapTable({
                     url: options.url,                                   // 请求后台的URL（*）
                     contentType: "application/x-www-form-urlencoded",   // 编码类型
@@ -33,6 +34,7 @@
                     pageSize: 10,                                       // 每页的记录行数（*） 
                     pageList: [10, 25, 50],                             // 可供选择的每页的行数（*）
                     escape: _escape,                                    // 转义HTML字符串
+                    showFooter: _showFooter,                            // 是否显示表尾
                     iconSize: 'outline',                                // 图标大小：undefined默认的按钮尺寸 xs超小按钮sm小按钮lg大按钮
         	        toolbar: '#toolbar',                                // 指定工作栏
                     sidePagination: "server",                           // 启用服务端分页
@@ -92,7 +94,7 @@
     		    }
     		    $("#bootstrap-table").bootstrapTable('refresh', params);
     		},
-    		// 下载-默认第一个form
+    		// 导出数据
     		exportExcel: function(formId) {
     			var currentId = $.common.isEmpty(formId) ? $('form').attr('id') : formId;
     			$.modal.loading("正在导出数据，请稍后...");
@@ -105,6 +107,63 @@
     				$.modal.closeLoading();
     			});
     		},
+    		// 下载模板
+    		importTemplate: function() {
+    			$.get($.table._option.importTemplateUrl, function(result) {
+    				if (result.code == web_status.SUCCESS) {
+    			        window.location.href = ctx + "common/download?fileName=" + result.msg + "&delete=" + true;
+    				} else {
+    					$.modal.alertError(result.msg);
+    				}
+    			});
+            },
+            // 导入数据
+            importExcel: function(formId) {
+            	var currentId = $.common.isEmpty(formId) ? 'importForm' : formId;
+            	$.form.reset(currentId);
+            	layer.open({
+            		type: 1,
+            		area: ['400px', '230px'],
+            		fix: false,
+            		//不固定
+            		maxmin: true,
+            		shade: 0.3,
+            		title: '导入' + $.table._option.modalName + '数据',
+            		content: $('#' + currentId),
+            		btn: ['<i class="fa fa-check"></i> 导入', '<i class="fa fa-remove"></i> 取消'],
+            		// 弹层外区域关闭
+            		shadeClose: true,
+            		btn1: function(index, layero){
+            			var file = layero.find('#file').val();
+            			if (file == '' || (!$.common.endWith(file, '.xls') && !$.common.endWith(file, '.xlsx'))){
+            				$.modal.msgWarning("请选择后缀为 “xls”或“xlsx”的文件。");
+            				return false;
+            			}
+            			var index = layer.load(2, {shade: false});
+            			var formData = new FormData();
+            			formData.append("file", $('#file')[0].files[0]);
+            			formData.append("updateSupport", $("input[name='updateSupport']").is(':checked'));
+            			$.ajax({
+            				url: $.table._option.importUrl,
+            				data: formData,
+            				cache: false,
+            				contentType: false,
+            				processData: false,
+            				type: 'POST',
+            				success: function (result) {
+            					if (result.code == web_status.SUCCESS) {
+            						$.modal.closeAll();
+            						$.modal.alertSuccess(result.msg);
+            						$.table.refresh();
+            					} else {
+            						layer.close(index);
+            						$.modal.alertError(result.msg);
+            					}
+            				}
+            			});
+            		}
+            	});
+            },
             // 刷新表格
             refresh: function() {
                 $("#bootstrap-table").bootstrapTable('refresh', {
@@ -288,6 +347,10 @@
             	var index = parent.layer.getFrameIndex(window.name);
                 parent.layer.close(index);
             },
+            // 关闭全部窗体
+            closeAll: function () {
+                layer.closeAll();
+            },
             // 确认窗体
             confirm: function (content, callBack) {
             	layer.confirm(content, {
@@ -404,6 +467,14 @@
             	});
                 layer.full(index);
             },
+            // 禁用按钮
+            disable: function() {
+	        	$("a[class*=layui-layer-btn]", window.parent.document).addClass("layer-disabled");
+            },
+            // 启用按钮
+            enable: function() {
+            	$("a[class*=layui-layer-btn]", window.parent.document).removeClass("layer-disabled");
+            },
             // 打开遮罩层
             loading: function (message) {
             	$.blockUI({ message: '<div class="loaderbox"><div class="loading-activity"></div> ' + message + '</div>' });
@@ -423,12 +494,14 @@
         operate: {
         	// 提交数据
         	submit: function(url, type, dataType, data) {
-        		$.modal.loading("正在处理中，请稍后...");
             	var config = {
         	        url: url,
         	        type: type,
         	        dataType: dataType,
         	        data: data,
+        	        beforeSend: function () {
+        	        	$.modal.loading("正在处理中，请稍后...");
+        	        },
         	        success: function(result) {
         	        	$.operate.ajaxSuccess(result);
         	        }
@@ -453,7 +526,7 @@
             	    _width = 'auto';
             	    _height = 'auto';
             	}
-            	layer.open({
+            	top.layer.open({
             		type: 2,
             		area: [_width + 'px', _height + 'px'],
             		fix: false,
@@ -462,15 +535,12 @@
             		shade: 0.3,
             		title: $.table._option.modalName + "详细",
             		content: _url,
-            		btn: '关闭',
+            		btn: ['关闭'],
             	    // 弹层外区域关闭
             		shadeClose: true,
-            		success: function(layer) {
-            			layer[0].childNodes[3].childNodes[0].attributes[0].value='layui-layer-btn1';
-            		},
-            		btn1: function(index) {
-            			layer.close(index);
-            	    }
+            		cancel: function(index){
+            			return true;
+         	        }
             	});
             },
             // 删除信息
@@ -549,12 +619,15 @@
             },
             // 保存信息
             save: function(url, data) {
-            	$.modal.loading("正在处理中，请稍后...");
             	var config = {
         	        url: url,
         	        type: "post",
         	        dataType: "json",
         	        data: data,
+        	        beforeSend: function () {
+        	        	$.modal.loading("正在处理中，请稍后...");
+        	        	$.modal.disable();
+        	        },
         	        success: function(result) {
         	        	$.operate.successCallback(result);
         	        }
@@ -598,6 +671,7 @@
                     $.modal.alertError(result.msg);
                 }
                 $.modal.closeLoading();
+                $.modal.enable();
             }
         },
         // 校验封装处理
