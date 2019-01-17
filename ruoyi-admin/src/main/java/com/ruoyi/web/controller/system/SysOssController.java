@@ -139,7 +139,7 @@ public class SysOssController extends BaseController
         ossEntity.setFileName(fileName);
         ossEntity.setCreateTime(new Date());
         ossEntity.setService(storage.getService());
-        return toAjax(sysOssService.save(ossEntity)).put("data", ossEntity.getUrl());
+        return toAjax(sysOssService.save(ossEntity)).put("url", ossEntity.getUrl()).put("fileName",ossEntity.getFileName());
     }
 
     /**

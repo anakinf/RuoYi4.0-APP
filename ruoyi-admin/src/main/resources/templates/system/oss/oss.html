@@ -148,7 +148,7 @@
 		
 		function osseditor() {
 			var url = prefix+'/editor';
-			$.modal.open("结合editor", url);
+			$.modal.open("结合editor", url,"1000");
 		}
 		
 		
@@ -168,16 +168,16 @@
 	        }
 	    });
 	    
-	    window.operateEvents = {
-		    'click .view': function (e, value, row, index) {
+	    window.operateEvents = {'click .view': function (e, value, row, index) {
+	    		var img='<img src="'+row.url+'"/>';
 		        layer.open({
 		          type: 1,
 		          title: false,
 		          closeBtn: 0,
-		          area: 'auto',
+		          area: ['auto','auto'],
 		          skin: 'layui-layer-nobg', //没有背景色
 		          shadeClose: true,
-		          content: '<img src="'+row.url+'"/>'
+		          content: img
 		        });
 		    },
 		};
