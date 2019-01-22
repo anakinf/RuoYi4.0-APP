@@ -69,6 +69,12 @@ spring:
   output:
     ansi:
       enabled: always
+  resources:
+    chain:
+      strategy:
+        content:
+          enabled: true
+          paths: /ruoyi/**
 
 # MyBatis
 mybatis:

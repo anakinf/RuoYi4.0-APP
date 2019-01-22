@@ -18,7 +18,11 @@
 ###### 集成省市区三级联动
 - 演示distpicker插件
 - 数据库驱动方式
-
+###### 静态资源动态url
+- 实际生产中可能前后端分离，防止缓存css,js链接可以这么写,例：
+```
+<script th:src="${urls.getForLookupPath('/ruoyi/js/ry-ui.js')}"></script>
+```
 
 ## 在线体验
 > admin/admin123  
