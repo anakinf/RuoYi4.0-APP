@@ -133,9 +133,10 @@
         });
 
         function submitHandler() {
-	        if ($.validate.form()) {
+	        /*if ($.validate.form()) {
 	            $.operate.save(prefix + "/saveConfig", $('#form-config-edit').serialize());
-	        }
+	        }*/
+	        layer.alert("演示环境下请勿更改！");
 	    }
 
         $(function() {
