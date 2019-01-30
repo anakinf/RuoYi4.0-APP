@@ -1,7 +1,7 @@
 package com.ruoyi.web.controller.system.cloud;
 
 import com.alibaba.fastjson.JSON;
-import com.ruoyi.framework.util.SpringUtils;
+import com.ruoyi.common.utils.spring.SpringUtils;
 import com.ruoyi.system.service.ISysConfigService;
 import com.ruoyi.web.controller.system.cloud.CloudConstant.CloudService;
 
