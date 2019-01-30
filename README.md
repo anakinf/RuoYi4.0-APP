@@ -23,7 +23,8 @@
 ```
 <script th:src="${urls.getForLookupPath('/ruoyi/js/ry-ui.js')}"></script>
 ```
-
+###### druid去除广告
+- 替换doc文件中的jar即可
 ## 在线体验
 > admin/admin123  
 
