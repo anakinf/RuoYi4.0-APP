@@ -25,6 +25,8 @@
 ```
 ###### druid去除广告
 - 替换doc文件中的jar即可
+###### 增加分页栏跳页插件
+- options中定义:`showJumpto:true`
 ## 在线体验
 > admin/admin123  
 

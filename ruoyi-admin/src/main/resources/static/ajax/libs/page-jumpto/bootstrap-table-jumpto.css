@@ -1,0 +1,14 @@
+.jumpto input {
+    height: 32px;
+    width: 50px;
+    margin-left: 5px;
+    margin-right: 5px;
+    text-align: center;
+    display: block;
+    float:left;
+}
+.jumpto button {
+    height: 32px;
+    display: block;
+    float:left;
+}

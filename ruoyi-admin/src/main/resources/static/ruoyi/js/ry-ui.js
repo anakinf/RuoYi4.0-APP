@@ -17,6 +17,7 @@
                 _sortOrder = $.common.isEmpty(options.sortOrder) ? "asc" : options.sortOrder;
                 _sortName = $.common.isEmpty(options.sortName) ? "" : options.sortName;
                 _pageSize = $.common.isEmpty(options.pageSize) ? 10 : options.pageSize;
+				_showJumpto = $.common.isEmpty(options.showJumpto) ? false : options.showJumpto;
                 _striped = $.common.isEmpty(options.striped) ? false : options.striped;
                 _escape = $.common.isEmpty(options.escape) ? false : options.escape;
                 _showFooter = $.common.isEmpty(options.showFooter) ? false : options.showFooter;
@@ -38,6 +39,7 @@
                     pageNumber: 1,                                      // 初始化加载第一页，默认第一页
                     pageSize: _pageSize,                                // 每页的记录行数（*） 
                     pageList: [10, 25, 50],                             // 可供选择的每页的行数（*）
+					showJumpto: _showJumpto,							// 是否显示跳页
                     escape: _escape,                                    // 转义HTML字符串
                     showFooter: _showFooter,                            // 是否显示表尾
                     iconSize: 'outline',                                // 图标大小：undefined默认的按钮尺寸 xs超小按钮sm小按钮lg大按钮
