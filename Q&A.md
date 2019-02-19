@@ -7,20 +7,16 @@
 
 #### Q:类似`type=${@dict.getType('sys_normal_disable')}`的代码怎么直接调用service的
 ###### A:Thymeleaf可以通过@beanName访问Spring应用上下文中注册的bean
-如` <div th:text="${@urlService.getApplicationUrl()}">...</div>`
-在这个例子中，`@urlService`就是在上下文中注册的`Spring Bean`
+如` <div th:text="${@myservice.hello()}">...</div>`
+在这个例子中，`@myservice`就是在上下文中注册的`Spring Bean`
 
 ```
-@Configuration
-public class MyConfiguration {
-    @Bean(name = "urlService")
-    public UrlService urlService() {
-        return new FixedUrlService("somedomain.com/myapp"); // 一个实现
+@Service("myservice")
+public class MyService {
+    
+    public void hello() {
+        System.out.println("Hello!")
     }
-}
-
-public interface UrlService {
-    String getApplicationUrl();
 }
 ```
 
