@@ -42,7 +42,11 @@
                     '</li>'].join('')).appendTo($pageGroup);
 
                 $jumpto.find('button').click(function () {
-                    that.selectPage(parseInt($jumpto.find('input').val()));
+                    var page=parseInt($jumpto.find('input').val())||1;
+                    if(page<1||page>that.options.totalPages){
+                        page=1;
+                    }
+                    that.selectPage(page);
                 });
             }
         }
