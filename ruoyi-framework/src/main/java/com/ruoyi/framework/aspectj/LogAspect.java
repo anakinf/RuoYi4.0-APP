@@ -15,10 +15,10 @@ import org.springframework.stereotype.Component;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.enums.BusinessStatus;
 import com.ruoyi.common.json.JSON;
+import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.framework.manager.AsyncManager;
 import com.ruoyi.framework.manager.factory.AsyncFactory;
-import com.ruoyi.framework.util.ServletUtils;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysOperLog;
 import com.ruoyi.system.domain.SysUser;
@@ -151,7 +151,7 @@ public class LogAspect
     {
         Map<String, String[]> map = ServletUtils.getRequest().getParameterMap();
         String params = JSON.marshal(map);
-        operLog.setOperParam(StringUtils.substring(params, 0, 255));
+        operLog.setOperParam(StringUtils.substring(params, 0, 2000));
     }
 
     /**
