@@ -26,6 +26,7 @@
         		    showFooter: false,
         		    search: false,
                     showSearch: true,
+                    showPageGo: false,
                     showRefresh: true,
                     showColumns: true,
                     showToggle: true,
@@ -35,7 +36,6 @@
         		    rightFixedColumns: false,
         		    rightFixedNumber: 0,
         		    queryParams: $.table.queryParams,
-					showJumpto: false
         		};
             	var options = $.extend(defaults, options);
                 $.table._option = options;
@@ -61,6 +61,7 @@
                     sidePagination: options.sidePagination,             // server启用服务端分页client客户端分页
                     search: options.search,                             // 是否显示搜索框功能
                     showSearch: options.showSearch,                     // 是否显示检索信息
+                    showPageGo: options.showPageGo,               		// 是否显示跳转页
                     showRefresh: options.showRefresh,                   // 是否显示刷新按钮
                     showColumns: options.showColumns,                   // 是否显示隐藏某列下拉框
                     showToggle: options.showToggle,                     // 是否显示详细视图和列表视图的切换按钮
@@ -73,7 +74,6 @@
                     columns: options.columns,                           // 显示列信息（*）
                     responseHandler: $.table.responseHandler,           // 在加载服务器发送来的数据之前处理函数
                     onLoadSuccess: $.table.onLoadSuccess,               // 当所有数据被加载时触发处理函数
-					showJumpto: options.showJumpto,               		// 是否显示跳页
                 });
             },
             // 查询条件
