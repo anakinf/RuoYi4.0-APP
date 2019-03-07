@@ -26,8 +26,9 @@
 ###### druid去除广告
 - 替换doc文件中的jar即可
 ###### 增加分页栏跳页插件
-- options中定义:`showJumpto:true`
+- options中定义:`showPageGo:true`
 - 参见演示系统中系统管理→文件管理
+- 该功能已经pr通过
 ## 在线体验
 > admin/admin123  
 
