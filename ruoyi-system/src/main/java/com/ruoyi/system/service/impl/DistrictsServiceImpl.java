@@ -1,12 +1,13 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
+import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.system.domain.Districts;
+import com.ruoyi.system.mapper.DistrictsMapper;
+import com.ruoyi.system.service.IDistrictsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.DistrictsMapper;
-import com.ruoyi.system.domain.Districts;
-import com.ruoyi.system.service.IDistrictsService;
-import com.ruoyi.common.support.Convert;
+
+import java.util.List;
 
 /**
  * 地区 服务层实现

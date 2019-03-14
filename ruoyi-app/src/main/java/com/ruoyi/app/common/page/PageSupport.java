@@ -1,13 +1,12 @@
 package com.ruoyi.app.common.page;
 
-import javax.servlet.http.HttpServletRequest;
-
+import com.ruoyi.common.constant.Constants;
+import com.ruoyi.common.core.page.PageDomain;
+import com.ruoyi.common.core.text.Convert;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.ruoyi.common.constant.Constants;
-import com.ruoyi.common.page.PageDomain;
-import com.ruoyi.common.support.Convert;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 表格数据处理

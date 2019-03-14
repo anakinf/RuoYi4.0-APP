@@ -1,15 +1,15 @@
 package com.ruoyi.app.common.base;
 
-import java.util.List;
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ruoyi.app.common.interceptor.AuthenticationInterceptor;
 import com.ruoyi.app.common.page.PageSupport;
 import com.ruoyi.app.common.page.ResultData;
-import com.ruoyi.common.base.AjaxResult;
-import com.ruoyi.common.page.PageDomain;
+import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.page.PageDomain;
 import com.ruoyi.common.utils.StringUtils;
+
+import java.util.List;
 
 /**
  * web层通用数据处理

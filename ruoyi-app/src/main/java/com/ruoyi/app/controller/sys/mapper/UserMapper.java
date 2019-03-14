@@ -6,7 +6,7 @@
 package com.ruoyi.app.controller.sys.mapper;
 
 import com.ruoyi.app.controller.sys.entity.AppUser;
-import com.ruoyi.common.base.BaseMapper;
+import com.ruoyi.common.core.mapper.BaseMapper;
 
 /**
  * <p>File：UserMapper.java</p>
