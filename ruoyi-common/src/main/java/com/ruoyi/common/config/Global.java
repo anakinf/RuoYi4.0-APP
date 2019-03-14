@@ -22,7 +22,7 @@ public class Global
     /**
      * 当前对象实例
      */
-    private static Global global = null;
+    private static Global global;
 
     /**
      * 保存全局属性值
@@ -34,18 +34,13 @@ public class Global
     }
 
     /**
-     * 静态工厂方法 获取当前对象实例 多线程安全单例模式(使用双重同步锁)
+     * 静态工厂方法
      */
-
     public static synchronized Global getInstance()
     {
         if (global == null)
         {
-            synchronized (Global.class)
-            {
-                if (global == null)
-                    global = new Global();
-            }
+            global = new Global();
         }
         return global;
     }
@@ -135,37 +130,5 @@ public class Global
     public static String getUploadPath()
     {
         return getConfig("ruoyi.profile") + "upload/";
-    }
-
-    /**
-     * 获取作者
-     */
-    public static String getAuthor()
-    {
-        return StringUtils.nvl(getConfig("gen.author"), "ruoyi");
-    }
-
-    /**
-     * 生成包路径
-     */
-    public static String getPackageName()
-    {
-        return StringUtils.nvl(getConfig("gen.packageName"), "com.ruoyi.project.module");
-    }
-
-    /**
-     * 是否自动去除表前缀
-     */
-    public static String getAutoRemovePre()
-    {
-        return StringUtils.nvl(getConfig("gen.autoRemovePre"), "true");
-    }
-
-    /**
-     * 表前缀(类名不会包含表前缀)
-     */
-    public static String getTablePrefix()
-    {
-        return StringUtils.nvl(getConfig("gen.tablePrefix"), "sys_");
     }
 }

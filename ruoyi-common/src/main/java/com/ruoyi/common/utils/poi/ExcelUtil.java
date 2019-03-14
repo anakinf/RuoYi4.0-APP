@@ -2,13 +2,13 @@ package com.ruoyi.common.utils.poi;
 
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.annotation.Excel.Type;
-import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.common.config.Global;
+import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.exception.BusinessException;
-import com.ruoyi.common.reflect.ReflectUtils;
-import com.ruoyi.common.support.Convert;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.reflect.ReflectUtils;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
@@ -647,7 +647,9 @@ public class ExcelUtil<T>
         {
             tempClass = tempClass.getSuperclass();
             if (tempClass != null)
+            {
                 tempFields.addAll(Arrays.asList(tempClass.getDeclaredFields()));
+            }
         }
         putToFields(tempFields);
     }

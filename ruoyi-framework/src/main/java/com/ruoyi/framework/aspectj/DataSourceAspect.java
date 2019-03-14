@@ -1,5 +1,6 @@
 package com.ruoyi.framework.aspectj;
 
+import com.ruoyi.common.config.datasource.DynamicDataSourceContextHolder;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -10,7 +11,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.ruoyi.common.enums.DataSourceType;
-import com.ruoyi.framework.datasource.DynamicDataSourceContextHolder;
 
 
 /**
