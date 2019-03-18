@@ -7,6 +7,7 @@ import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import com.ruoyi.common.utils.Threads;
 
 /**
  * 线程池配置
@@ -48,6 +49,14 @@ public class ThreadPoolConfig
     protected ScheduledExecutorService scheduledExecutorService()
     {
         return new ScheduledThreadPoolExecutor(corePoolSize,
-                new BasicThreadFactory.Builder().namingPattern("schedule-pool-%d").daemon(true).build());
+                new BasicThreadFactory.Builder().namingPattern("schedule-pool-%d").daemon(true).build())
+        {
+            @Override
+            protected void afterExecute(Runnable r, Throwable t)
+            {
+                super.afterExecute(r, t);
+                Threads.printException(r, t);
+            }
+        };
     }
 }
