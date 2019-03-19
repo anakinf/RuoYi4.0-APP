@@ -31,12 +31,12 @@ public class DataSourceAspect
         if (isSlave(methodName))
         {
             // 标记为读库,可以自定义选择数据源
-            DynamicDataSourceContextHolder.setDateSoureType(DataSourceType.SLAVE.name());
+            DynamicDataSourceContextHolder.setDataSourceType(DataSourceType.SLAVE.name());
         }
         else
         {
             // 标记为写库
-            DynamicDataSourceContextHolder.setDateSoureType(DataSourceType.MASTER.name());
+            DynamicDataSourceContextHolder.setDataSourceType(DataSourceType.MASTER.name());
         }
         try
         {
@@ -45,7 +45,7 @@ public class DataSourceAspect
         finally
         {
             // 销毁数据源 在执行方法之后
-            DynamicDataSourceContextHolder.clearDateSoureType();
+            DynamicDataSourceContextHolder.clearDataSourceType();
         }
     }
 
