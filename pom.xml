@@ -35,7 +35,7 @@
 		<jsoup.version>1.11.3</jsoup.version>
 		<poi.version>3.17</poi.version>
 		<velocity.version>1.7</velocity.version>
-		<mapper.starter.version>2.1.3</mapper.starter.version>
+		<mapper.starter.version>2.1.5</mapper.starter.version>
 	</properties>
 	
 	<!-- 依赖声明 -->

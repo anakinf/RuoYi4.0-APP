@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * web层通用数据处理
  */
-public class BaseController
+public class BaseAppController
 {
     /**
      * 设置请求分页数据

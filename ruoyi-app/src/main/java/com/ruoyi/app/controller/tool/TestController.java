@@ -1,6 +1,6 @@
 package com.ruoyi.app.controller.tool;
 
-import com.ruoyi.app.common.base.BaseController;
+import com.ruoyi.app.common.base.BaseAppController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -18,7 +18,7 @@ import java.util.List;
 @Api("用户信息管理")
 @RestController
 @RequestMapping("/test/*")
-public class TestController extends BaseController
+public class TestController extends BaseAppController
 {
     private final static List<Test> testList = new ArrayList<>();
     {

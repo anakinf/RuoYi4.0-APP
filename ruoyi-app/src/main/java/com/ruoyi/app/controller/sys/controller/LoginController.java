@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ruoyi.app.common.annotation.PassToken;
-import com.ruoyi.app.common.base.BaseController;
+import com.ruoyi.app.common.base.BaseAppController;
 import com.ruoyi.app.common.exception.UnauthorizedException;
 import com.ruoyi.app.common.page.ResultData;
 import com.ruoyi.app.common.util.JwtUtil;
@@ -15,7 +15,7 @@ import com.ruoyi.app.controller.sys.entity.AppUser;
 import com.ruoyi.app.controller.sys.service.impl.UserService;
 
 @RestController
-public class LoginController extends BaseController
+public class LoginController extends BaseAppController
 {
     @Autowired
     UserService userService;

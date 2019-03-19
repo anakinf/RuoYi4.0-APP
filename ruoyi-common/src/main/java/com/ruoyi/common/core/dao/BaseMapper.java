@@ -3,7 +3,7 @@
  * Copyright 2016 张孟如, Inc. All rights reserved. 
  * PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
-package com.ruoyi.common.core.mapper;
+package com.ruoyi.common.core.dao;
 
 import tk.mybatis.mapper.common.ConditionMapper;
 import tk.mybatis.mapper.common.IdsMapper;
