@@ -17,9 +17,9 @@ spring:
             slave:
                 # 从数据源开关/默认关闭
                 enabled: false
-                url: 
-                username: 
-                password: 
+                url:
+                username:
+                password:
             # 初始连接数
             initialSize: 5
             # 最小连接池数量
@@ -38,7 +38,9 @@ spring:
             validationQuery: SELECT 1 FROM DUAL
             testWhileIdle: true
             testOnBorrow: false
-            testOnReturn: false      
+            testOnReturn: false
+            webStatFilter:
+                enabled: true
             statViewServlet:
                 enabled: true
                 # 设置白名单，不填则允许所有访问
@@ -46,6 +48,7 @@ spring:
                 url-pattern: /monitor/druid/*
             filter:
                 stat:
+                    enabled: true
                     # 慢SQL记录
                     log-slow-sql: true
                     slow-sql-millis: 1000

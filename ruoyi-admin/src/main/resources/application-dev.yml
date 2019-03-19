@@ -12,8 +12,8 @@ spring:
             # 从库数据源
             slave:
                 # 从数据源开关/默认关闭
-                enabled: true
-                url: jdbc:mysql://localhost:3306/ry?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8 
+                enabled: false
+                url: jdbc:mysql://localhost:3306/ry?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
                 username: root
                 password: root
             # 初始连接数
@@ -35,11 +35,16 @@ spring:
             testWhileIdle: true
             testOnBorrow: false
             testOnReturn: false
+            webStatFilter:
+                enabled: true
             statViewServlet:
                 enabled: true
+                # 设置白名单，不填则允许所有访问
+                allow:
                 url-pattern: /monitor/druid/*
             filter:
                 stat:
+                    enabled: true
                     # 慢SQL记录
                     log-slow-sql: true
                     slow-sql-millis: 1000
