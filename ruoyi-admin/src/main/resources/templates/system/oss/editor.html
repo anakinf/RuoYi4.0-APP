@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <meta charset="utf-8">
-<head th:include="include :: header"></head>
+<head>
+	<th:block th:include="include :: header('结合editor')" />
+</head>
 <link th:href="@{/ajax/libs/summernote/summernote.css}" rel="stylesheet"/>
 <link th:href="@{/ajax/libs/summernote/summernote-bs3.css}" rel="stylesheet"/>
 <body class="white-bg">
