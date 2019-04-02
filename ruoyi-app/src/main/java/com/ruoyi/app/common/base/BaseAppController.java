@@ -90,13 +90,7 @@ public class BaseAppController
         return AjaxResult.error(message);
     }
 
-    /**
-     * 返回错误码消息
-     */
-    public AjaxResult error(int code, String message)
-    {
-        return AjaxResult.error(code, message);
-    }
+
 
     /**
      * 页面跳转
