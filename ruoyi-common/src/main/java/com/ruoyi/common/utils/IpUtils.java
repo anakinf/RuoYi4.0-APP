@@ -1,8 +1,8 @@
 package com.ruoyi.common.utils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 获取IP方法
@@ -46,7 +46,10 @@ public class IpUtils
     public static boolean internalIp(String ip)
     {
         byte[] addr = textToNumericFormatV4(ip);
-        return internalIp(addr) || "127.0.0.1".equals(ip);
+        if (null != addr) {
+            return internalIp(addr) || "127.0.0.1".equals(ip);
+        }
+        return false;
     }
 
     private static boolean internalIp(byte[] addr)

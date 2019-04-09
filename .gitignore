@@ -33,6 +33,11 @@ dist/
 nbdist/
 .nb-gradle/
 
+### IntelliJ IDEA ###
+.scannerwork
+sonar-project.properties
+
+
 ######################################################################
 # Others
 *.log
