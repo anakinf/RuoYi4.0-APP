@@ -1,7 +1,5 @@
 package com.ruoyi.web.controller.common;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -50,7 +48,7 @@ public class CommonController
         {
             if (!FileUtils.isValidFilename(fileName))
             {
-                throw new Exception(StringUtils.format(" 文件名称({})非法，不允许下载。 ", fileName));
+                throw new Exception(StringUtils.format("文件名称({})非法，不允许下载。 ", fileName));
             }
             String realFileName = System.currentTimeMillis() + fileName.substring(fileName.indexOf("_") + 1);
             String filePath = Global.getDownloadPath() + fileName;
@@ -58,7 +56,7 @@ public class CommonController
             response.setCharacterEncoding("utf-8");
             response.setContentType("multipart/form-data");
             response.setHeader("Content-Disposition",
-                    "attachment;fileName=" + setFileDownloadHeader(request, realFileName));
+                    "attachment;fileName=" + FileUtils.setFileDownloadHeader(request, realFileName));
             FileUtils.writeBytes(filePath, response.getOutputStream());
             if (delete)
             {
@@ -94,33 +92,5 @@ public class CommonController
         {
             return AjaxResult.error(e.getMessage());
         }
-    }
-
-    public String setFileDownloadHeader(HttpServletRequest request, String fileName) throws UnsupportedEncodingException
-    {
-        final String agent = request.getHeader("USER-AGENT");
-        String filename = fileName;
-        if (agent.contains("MSIE"))
-        {
-            // IE浏览器
-            filename = URLEncoder.encode(filename, "utf-8");
-            filename = filename.replace("+", " ");
-        }
-        else if (agent.contains("Firefox"))
-        {
-            // 火狐浏览器
-            filename = new String(fileName.getBytes(), "ISO8859-1");
-        }
-        else if (agent.contains("Chrome"))
-        {
-            // google浏览器
-            filename = URLEncoder.encode(filename, "utf-8");
-        }
-        else
-        {
-            // 其它浏览器
-            filename = URLEncoder.encode(filename, "utf-8");
-        }
-        return filename;
     }
 }
