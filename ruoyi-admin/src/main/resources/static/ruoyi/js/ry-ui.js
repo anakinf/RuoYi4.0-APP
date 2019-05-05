@@ -38,6 +38,7 @@
         		    rightFixedColumns: false,
         		    rightFixedNumber: 0,
         		    queryParams: $.table.queryParams,
+        		    rowStyle: {},
         		};
             	var options = $.extend(defaults, options);
                 $.table._option = options;
@@ -76,6 +77,7 @@
                     rightFixedColumns: options.rightFixedColumns,       // 是否启用冻结列（右侧）
                     rightFixedNumber: options.rightFixedNumber,         // 列冻结的个数（右侧）
                     queryParams: options.queryParams,                   // 传递参数（*）
+                    rowStyle: options.rowStyle,                         // 通过自定义函数设置行样式
                     columns: options.columns,                           // 显示列信息（*）
                     responseHandler: $.table.responseHandler,           // 在加载服务器发送来的数据之前处理函数
                     onLoadSuccess: $.table.onLoadSuccess,               // 当所有数据被加载时触发处理函数
@@ -129,6 +131,23 @@
             			selectionIds = _[func](selectionIds, rowIds);
             		}
             	});
+            	// 图片预览事件
+            	$("#" + $.table._option.id).on('click', '.img-circle', function() {
+    			    var src = $(this).attr('src');
+    			    var target = $(this).data('target');
+    			    if($.common.equals("self", target)) {
+    			    	layer.open({
+        			        title: false,
+        			        type: 1,
+        			        closeBtn: false,
+        			        shadeClose: true,
+        			        area: ['auto', 'auto'],
+        			        content: "<img src='" + src + "' />"
+        			    });
+    			    } else if ($.common.equals("blank", target)) {
+    			        window.open(src);
+    			    }
+    			});
             },
             // 当所有数据被加载时触发
             onLoadSuccess: function(data) {
@@ -154,10 +173,11 @@
 				var _value = $.common.nullToStr(value);
 				if (_value.length > _length) {
 					_text = _value.substr(0, _length) + "...";
+					return $.common.sprintf("<a href='#' class='tooltip-show' data-toggle='tooltip' title='%s'>%s</a>", _value, _text);
 				} else {
 					_text = _value;
+					return _text;
 				}
-				return '<a href="#" class="tooltip-show" data-toggle="tooltip" title="' + _value + '">' + _text +'</a>';
 			},
 			// 下拉按钮切换
 			dropdownToggle: function (value) {
@@ -170,6 +190,17 @@
 				actions.push('</ul>');
 				actions.push('</div>');
 				return actions.join('');
+			},
+			// 图片预览
+			imageView: function (value, path, target) {
+				var _path = $.common.isEmpty(path) ? '/profile/upload' : path;
+				// blank or self
+				var _target = $.common.isEmpty(target) ? 'self' : target;
+				if ($.common.isNotEmpty(value)) {
+					return $.common.sprintf("<img class='img-circle img-xs' data-target='%s' src='%s/%s'/>", _target, _path, value);
+				} else {
+					return $.common.nullToStr(value);
+				}
 			},
             // 搜索-默认第一个form
             search: function(formId) {
@@ -383,6 +414,13 @@
             // 刷新
             refresh: function() {
             	$._treeTable.bootstrapTreeTable('refresh');
+            },
+            // 查询表格树指定列值
+            selectColumns: function(column) {
+            	var rows = $.map($('#' + $.table._option.id).bootstrapTreeTable('getSelections'), function (row) {
+        	        return row[column];
+        	    });
+            	return $.common.uniqueFn(rows);
             },
         },
         // 表单封装处理

@@ -13,10 +13,10 @@ ruoyi:
 
 # 开发环境配置
 server:
-  # 服务端口
+  # 服务器的HTTP端口，默认为80
   port: 80
   servlet:
-    # 项目contextPath
+    # 应用的访问路径
     context-path: /
   tomcat:
     # tomcat的URI编码
@@ -49,7 +49,7 @@ spring:
   # 资源信息
   messages:
     # 国际化资源文件路径
-    basename: i18n/messages
+    basename: static/i18n/messages
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
