@@ -2,6 +2,8 @@
 
 本项目FORK自  [若依/RuoYi](https://gitee.com/y_project/RuoYi)
 暂时花了几分钟时间把自己整合过的功能传上来：
+###### springcloud
+还是因为有人跃跃欲试，稍微改了下，cloud版本移步 [ruoyi-cloud](https://gitee.com/zhangmrit/ruoyi-cloud)
 ###### 集成jwt
 应很多同学要求写了一个jwt的模块，详情ruoyi-app，若需要使用`shiro-jwt`，见[shiro-jwt分支](https://gitee.com/zhangmrit/RuoYi/tree/shiro-jwt/)
 ###### 多数据源切面
