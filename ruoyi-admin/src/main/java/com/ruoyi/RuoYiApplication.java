@@ -12,7 +12,6 @@ import tk.mybatis.spring.annotation.MapperScan;
  * @author ruoyi
  */
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
-@MapperScan("com.ruoyi.*.mapper")
 public class RuoYiApplication
 {
     public static void main(String[] args)
