@@ -65,6 +65,7 @@
                     toolbar: '#' + options.toolbar,                     // 指定工作栏
                     sidePagination: options.sidePagination,             // server启用服务端分页client客户端分页
                     search: options.search,                             // 是否显示搜索框功能
+                    searchText: options.searchText,                     // 搜索框初始显示的内容，默认为空
                     showSearch: options.showSearch,                     // 是否显示检索信息
                     showPageGo: options.showPageGo,               		// 是否显示跳转页
                     showRefresh: options.showRefresh,                   // 是否显示刷新按钮
@@ -72,6 +73,7 @@
                     showToggle: options.showToggle,                     // 是否显示详细视图和列表视图的切换按钮
                     showExport: options.showExport,                     // 是否支持导出文件
                     clickToSelect: options.clickToSelect,				// 是否启用点击选中行
+                    detailView: options.detailView,                     // 是否启用显示细节视图
                     onClickRow: options.onClickRow,                     // 点击某行触发的事件
                     onDblClickRow: options.onDblClickRow,               // 双击某行触发的事件
                     onClickCell: options.onClickCell,                   // 单击某格触发的事件
@@ -87,6 +89,7 @@
                     responseHandler: $.table.responseHandler,           // 在加载服务器发送来的数据之前处理函数
                     onLoadSuccess: $.table.onLoadSuccess,               // 当所有数据被加载时触发处理函数
                     exportOptions: options.exportOptions,               // 前端导出忽略列索引
+                    detailFormatter: options.detailFormatter,           // 在行下面展示其他数据列表
                 });
             },
             // 查询条件
@@ -105,7 +108,7 @@
             // 请求获取数据后处理回调函数
             responseHandler: function(res) {
             	if (typeof $.table._option.responseHandler == "function") {
-            		options.responseHandler(res);
+            		$.table._option.responseHandler(res);
                 }
                 if (res.code == 0) {
                     if ($.common.isNotEmpty($.table._option.sidePagination) && $.table._option.sidePagination == 'client') {
@@ -132,6 +135,7 @@
             		var rows = $.common.isEmpty($.table._option.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns($.table._option.uniqueId);
             		$('#' + $.table._option.toolbar + ' .btn-del').toggleClass('disabled', !rows.length);
             		$('#' + $.table._option.toolbar + ' .btn-edit').toggleClass('disabled', rows.length!=1);
+            		$('#' + $.table._option.toolbar + ' .btn-detail').toggleClass('disabled', rows.length!=1);
             	});
             	// 绑定选中事件、取消事件、全部选中、全部取消
             	$("#" + $.table._option.id).on("check.bs.table check-all.bs.table uncheck.bs.table uncheck-all.bs.table", function (e, rows) {
@@ -578,7 +582,7 @@
                 if ($.common.isEmpty(callback)) {
                     callback = function(index, layero) {
                         var iframeWin = layero.find('iframe')[0];
-                        iframeWin.contentWindow.submitHandler();
+                        iframeWin.contentWindow.submitHandler(index, layero);
                     }
                 }
             	layer.open({
@@ -606,6 +610,11 @@
                 var _width = $.common.isEmpty(options.width) ? "800" : options.width; 
                 var _height = $.common.isEmpty(options.height) ? ($(window).height() - 50) : options.height;
                 var _btn = ['<i class="fa fa-check"></i> 确认', '<i class="fa fa-close"></i> 关闭'];
+                if ($.common.isEmpty(options.yes)) {
+                	options.yes = function(index, layero) {
+                    	options.callBack(index, layero);
+                    }
+                }
                 layer.open({
                     type: 2,
             		maxmin: true,
@@ -615,10 +624,10 @@
                     area: [_width + 'px', _height + 'px'],
                     content: _url,
                     shadeClose: true,
+                    skin: options.skin,
                     btn: $.common.isEmpty(options.btn) ? _btn : options.btn,
-                    yes: function (index, layero) {
-                        options.callBack(index, layero)
-                    }, cancel: function () {
+                    yes: options.yes,
+                    cancel: function () {
                         return true;
                     }
                 });
@@ -656,7 +665,7 @@
             		shadeClose: true,
             		yes: function(index, layero) {
             	        var iframeWin = layero.find('iframe')[0];
-            	        iframeWin.contentWindow.submitHandler();
+            	        iframeWin.contentWindow.submitHandler(index, layero);
             	    },
             	    cancel: function(index) {
             	        return true;
@@ -667,6 +676,10 @@
             // 选卡页方式打开
             openTab: function (title, url) {
             	createMenuItem(url, title);
+            },
+            // 关闭选项卡
+            closeTab: function () {
+            	closeItem();
             },
             // 禁用按钮
             disable: function() {
@@ -724,30 +737,34 @@
             },
             // 详细信息
             detail: function(id, width, height) {
-            	var _url = $.common.isEmpty(id) ? $.table._option.detailUrl : $.table._option.detailUrl.replace("{id}", id);
-                var _width = $.common.isEmpty(width) ? "800" : width; 
-                var _height = $.common.isEmpty(height) ? ($(window).height() - 50) : height;
-            	//如果是移动端，就使用自适应大小弹窗
-            	if (navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)) {
-            	    _width = 'auto';
-            	    _height = 'auto';
+            	var _url = $.operate.detailUrl(id);
+            	var options = {
+       				title: $.table._option.modalName + "详细",
+       				width: width,
+       				height: height,
+       				url: $.operate.detailUrl(id),
+       				skin: 'layui-layer-molv', 
+       				btn: ['关闭'],
+       				yes: function (index, layero) {
+       	                layer.close(index);
+                    }
+       			};
+            	$.modal.openOptions(options);
+            },
+            // 详细访问地址
+            detailUrl: function(id) {
+            	var url = "/404.html";
+            	if ($.common.isNotEmpty(id)) {
+            	    url = $.table._option.detailUrl.replace("{id}", id);
+            	} else {
+            	    var id = $.common.isEmpty($.table._option.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns($.table._option.uniqueId);
+            	    if (id.length == 0) {
+            			$.modal.alertWarning("请至少选择一条记录");
+            			return;
+            		}
+            	    url = $.table._option.detailUrl.replace("{id}", id);
             	}
-            	layer.open({
-            		type: 2,
-            		area: [_width + 'px', _height + 'px'],
-            		fix: false,
-            		//不固定
-            		maxmin: true,
-            		shade: 0.3,
-            		title: $.table._option.modalName + "详细",
-            		content: _url,
-            		btn: ['关闭'],
-            	    // 弹层外区域关闭
-            		shadeClose: true,
-            		cancel: function(index){
-            			return true;
-         	        }
-            	});
+                return url;
             },
             // 删除信息
             remove: function(id) {
@@ -972,7 +989,7 @@
     	        	} else if ($contentWindow.$.table._option.type == table_type.bootstrapTreeTable) {
     	        		$contentWindow.$.treeTable.refresh();
                     }
-    	            closeItem();
+    	            $.modal.closeTab();
                 } else if (result.code == web_status.WARNING) {
                     $.modal.alertWarning(result.msg)
                 } else {
