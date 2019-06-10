@@ -69,7 +69,7 @@
 						</li>
 					</ul>
                 </li>
-                <li th:classappend="${demoEnabled==false} ? 'hidden'">
+                <li th:if="${demoEnabled}">
                     <a href="#"><i class="fa fa-desktop"></i><span class="nav-label">实例演示</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
                         <li> <a>表单<span class="fa arrow"></span></a>
@@ -118,6 +118,14 @@
                             <ul class="nav nav-third-level">
 								<li><a class="menuItem" th:href="@{/demo/operate/table}">表格</a></li>
 								<li><a class="menuItem" th:href="@{/demo/operate/other}">其他</a></li>
+							</ul>
+                        </li>
+                        <li> <a>报表<span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+								<li><a class="menuItem" th:href="@{/demo/report/echarts}">百度ECharts</a></li>
+								<li><a class="menuItem" th:href="@{/demo/report/peity}">peity</a></li>
+								<li><a class="menuItem" th:href="@{/demo/report/sparkline}">sparkline</a></li>
+								<li><a class="menuItem" th:href="@{/demo/report/metrics}">图表组合</a></li>
 							</ul>
                         </li>
                         <li> <a>图标<span class="fa arrow"></span></a>
