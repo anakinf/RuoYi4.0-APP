@@ -2,6 +2,7 @@ package com.ruoyi.app.common.page;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.ruoyi.common.page.PageDomain;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 

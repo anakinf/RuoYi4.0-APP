@@ -5,7 +5,7 @@ import java.util.List;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ruoyi.app.common.page.ResultData;
-import com.ruoyi.app.common.page.PageDomain;
+import com.ruoyi.common.page.PageDomain;
 import com.ruoyi.app.common.page.PageSupport;
 import com.ruoyi.app.common.util.ShiroUtils;
 import com.ruoyi.common.base.AjaxResult;
