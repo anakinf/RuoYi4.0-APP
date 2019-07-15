@@ -123,9 +123,17 @@ public class SysUserController extends BaseController
         {
             return error("不允许修改超级管理员用户");
         }
-        if (UserConstants.USER_NAME_NOT_UNIQUE.equals(userService.checkLoginNameUnique(user.getLoginName())))
+        else if (UserConstants.USER_NAME_NOT_UNIQUE.equals(userService.checkLoginNameUnique(user.getLoginName())))
         {
             return error("保存用户'" + user.getLoginName() + "'失败，登录账号已存在");
+        }
+        else if (UserConstants.USER_PHONE_NOT_UNIQUE.equals(userService.checkPhoneUnique(user)))
+        {
+            return error("保存用户'" + user.getLoginName() + "'失败，手机号码已存在");
+        }
+        else if (UserConstants.USER_EMAIL_NOT_UNIQUE.equals(userService.checkEmailUnique(user)))
+        {
+            return error("保存用户'" + user.getLoginName() + "'失败，邮箱账号已存在");
         }
         user.setSalt(ShiroUtils.randomSalt());
         user.setPassword(passwordService.encryptPassword(user.getLoginName(), user.getPassword(), user.getSalt()));
@@ -158,6 +166,14 @@ public class SysUserController extends BaseController
         {
             return error("不允许修改超级管理员用户");
         }
+        else if (UserConstants.USER_PHONE_NOT_UNIQUE.equals(userService.checkPhoneUnique(user)))
+        {
+            return error("保存用户'" + user.getLoginName() + "'失败，手机号码已存在");
+        }
+        else if (UserConstants.USER_EMAIL_NOT_UNIQUE.equals(userService.checkEmailUnique(user)))
+        {
+            return error("保存用户'" + user.getLoginName() + "'失败，邮箱账号已存在");
+        }
         user.setUpdateBy(ShiroUtils.getLoginName());
         return toAjax(userService.updateUser(user));
     }
@@ -179,7 +195,12 @@ public class SysUserController extends BaseController
     {
         user.setSalt(ShiroUtils.randomSalt());
         user.setPassword(passwordService.encryptPassword(user.getLoginName(), user.getPassword(), user.getSalt()));
-        return toAjax(userService.resetUserPwd(user));
+        if (userService.resetUserPwd(user) > 0)
+        {
+            ShiroUtils.setSysUser(userService.selectUserById(user.getUserId()));
+            return success();
+        }
+        return error();
     }
 
     @RequiresPermissions("system:user:remove")

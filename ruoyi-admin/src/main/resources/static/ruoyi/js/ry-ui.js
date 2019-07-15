@@ -25,6 +25,7 @@
         		    toolbar: "toolbar",
         		    striped: false,
         		    escape: false,
+        		    firstLoad: true,
         		    showFooter: false,
         		    search: false,
                     showSearch: true,
@@ -61,6 +62,7 @@
                     pageNumber: 1,                                      // 初始化加载第一页，默认第一页
                     pageSize: options.pageSize,                         // 每页的记录行数（*） 
                     pageList: options.pageList,                         // 可供选择的每页的行数（*）
+                    firstLoad: options.firstLoad,                       // 是否首次请求加载数据，对于数据较大可以配置false
                     escape: options.escape,                             // 转义HTML字符串
                     showFooter: options.showFooter,                     // 是否显示表尾
                     iconSize: 'outline',                                // 图标大小：undefined默认的按钮尺寸 xs超小按钮sm小按钮lg大按钮
@@ -154,6 +156,8 @@
             	$.btTable.on('click', '.img-circle', function() {
     			    var src = $(this).attr('src');
     			    var target = $(this).data('target');
+    			    var height = $(this).data('height');
+    			    var width = $(this).data('width');
     			    if($.common.equals("self", target)) {
     			    	layer.open({
         			        title: false,
@@ -161,12 +165,18 @@
         			        closeBtn: true,
         			        shadeClose: true,
         			        area: ['auto', 'auto'],
-        			        content: "<img src='" + src + "' />"
+        			        content: "<img src='" + src + "' height='" + height + "' width='" + width + "'/>"
         			    });
     			    } else if ($.common.equals("blank", target)) {
     			        window.open(src);
     			    }
     			});
+            	// 单击tooltip复制文本
+            	$.btTable.on('click', '.tooltip-show', function() {
+            		var input = $(this).prev();
+            		input.select();
+            		document.execCommand("copy");
+            	});
             },
             // 当所有数据被加载时触发
             onLoadSuccess: function(data) {
@@ -188,14 +198,18 @@
 				var pageNumber = table.pageNumber;
 				return pageSize * (pageNumber - 1) + index + 1;
 			},
-			// 列超出指定长度浮动提示
+			// 列超出指定长度浮动提示（单击文本复制）
 			tooltip: function (value, length) {
 				var _length = $.common.isEmpty(length) ? 20 : length;
 				var _text = "";
 				var _value = $.common.nullToStr(value);
 				if (_value.length > _length) {
 					_text = _value.substr(0, _length) + "...";
-					return $.common.sprintf("<a href='#' class='tooltip-show' data-toggle='tooltip' title='%s'>%s</a>", _value, _text);
+					_value = _value.replace(/\'/g,"’");
+					var actions = [];
+					actions.push($.common.sprintf('<input id="tooltip-show" style="opacity: 0;position: absolute;z-index:-1" type="text" value="%s"/>', _value));
+                	actions.push($.common.sprintf("<a href='###' class='tooltip-show' data-toggle='tooltip' title='%s'>%s</a>", _value, _text));
+					return actions.join('');
 				} else {
 					_text = _value;
 					return _text;
@@ -214,12 +228,17 @@
 				return actions.join('');
 			},
 			// 图片预览
-			imageView: function (value, path, target) {
-				var _path = $.common.isEmpty(path) ? '/profile/upload' : path;
+			imageView: function (value, height, width, target) {
+				if ($.common.isEmpty(width)) {
+                	width = 'auto';
+                }
+                if ($.common.isEmpty(height)) {
+                	height = 'auto';
+                }
 				// blank or self
 				var _target = $.common.isEmpty(target) ? 'self' : target;
 				if ($.common.isNotEmpty(value)) {
-					return $.common.sprintf("<img class='img-circle img-xs' data-target='%s' src='%s/%s'/>", _target, _path, value);
+					return $.common.sprintf("<img class='img-circle img-xs' data-height='%s' data-width='%s' data-target='%s' src='%s'/>", width, height, _target, value);
 				} else {
 					return $.common.nullToStr(value);
 				}
@@ -369,7 +388,7 @@
             	var actions = [];
                 $.each(datas, function(index, dict) {
                     if (dict.dictValue == ('' + value)) {
-                    	var listClass = $.common.equals("default", dict.listClass) ? "" : "badge badge-" + dict.listClass;
+                    	var listClass = $.common.equals("default", dict.listClass) || $.common.isEmpty(dict.listClass) ? "" : "badge badge-" + dict.listClass;
                     	actions.push($.common.sprintf("<span class='%s'>%s</span>", listClass, dict.dictLabel));
                         return false;
                     }
@@ -398,6 +417,7 @@
         		    toolbar: "toolbar",
         		    striped: false,
         		    expandColumn: 1,
+        		    showSearch: true,
         		    showRefresh: true,
         			showColumns: true,
         			expandAll: true,
@@ -417,6 +437,7 @@
         			striped: options.striped,                           // 是否显示行间隔色
         			bordered: true,                                     // 是否显示边框
         			toolbar: '#' + options.toolbar,                     // 指定工作栏
+        			showSearch: options.showSearch,                     // 是否显示检索信息
         			showRefresh: options.showRefresh,                   // 是否显示刷新按钮
         			showColumns: options.showColumns,                   // 是否显示隐藏某列下拉框
         			expandAll: options.expandAll,                       // 是否全部展开
@@ -448,6 +469,7 @@
     		reset: function(formId) {
             	var currentId = $.common.isEmpty(formId) ? $('form').attr('id') : formId;
             	$("#" + currentId)[0].reset();
+                $.btTable.bootstrapTable('refresh');
             },
             // 获取选中复选框项
             selectCheckeds: function(name) {
@@ -571,16 +593,16 @@
             	}
             	if ($.common.isEmpty(title)) {
                     title = false;
-                };
+                }
                 if ($.common.isEmpty(url)) {
                     url = "/404.html";
-                };
+                }
                 if ($.common.isEmpty(width)) {
                 	width = 800;
-                };
+                }
                 if ($.common.isEmpty(height)) {
                 	height = ($(window).height() - 50);
-                };
+                }
                 if ($.common.isEmpty(callback)) {
                     callback = function(index, layero) {
                         var iframeWin = layero.find('iframe')[0];
@@ -643,16 +665,16 @@
             	}
             	if ($.common.isEmpty(title)) {
                     title = false;
-                };
+                }
                 if ($.common.isEmpty(url)) {
                     url = "/404.html";
-                };
+                }
                 if ($.common.isEmpty(width)) {
                 	width = 800;
-                };
+                }
                 if ($.common.isEmpty(height)) {
                 	height = ($(window).height() - 50);
-                };
+                }
                 var index = layer.open({
             		type: 2,
             		area: [width + 'px', height + 'px'],
@@ -678,6 +700,12 @@
             // 选卡页方式打开
             openTab: function (title, url) {
             	createMenuItem(url, title);
+            },
+            // 选卡页同一页签打开
+            parentTab: function (title, url) {
+            	var dataId = window.frameElement.getAttribute('data-id');
+            	createMenuItem(url, title);
+            	closeItem(dataId);
             },
             // 关闭选项卡
             closeTab: function () {

@@ -113,7 +113,13 @@ public class FileUploadUtils
 
         File desc = getAbsoluteFile(baseDir, fileName);
         file.transferTo(desc);
-        return fileName;
+        String pathFileName = baseDir + fileName;
+        if (StringUtils.contains(baseDir, ":"))
+        {
+            // windows 去除盘符
+            pathFileName = StringUtils.substringAfterLast(baseDir, ":") + fileName;
+        }
+        return pathFileName;
     }
 
     /**
@@ -230,5 +236,4 @@ public class FileUploadUtils
         }
         return extension;
     }
-
 }
